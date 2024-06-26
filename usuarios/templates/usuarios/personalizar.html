@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalizar</title>
+</head>
+<body>
+     <h1>Pesonalizar</h1>
+     <form method="post">
+         {% csrf_token %}
+         <label for="cor_preferida">Cor Preferida:</label>
+         <input type="color" id="cor_preferida" name="cor_preferida" required>
+         <button type="submit">Salvar</button>
+     </form>
+
+
+
+</body>
+</html>

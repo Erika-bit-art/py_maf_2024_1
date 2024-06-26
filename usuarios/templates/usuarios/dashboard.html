@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            background-color: {{ cor_preferida }};
+        }
+    </style>
+
+</head>
+<body>
+      <h1>Bem-vindo(a), {{ usuario.nome }}</h1>
+      <p>Sua cor preferida é: {{cor_preferida}}</p>
+      <a href="{% url 'personalizar' %}">Personalizar</a>
+      <a href="{% url 'logout' %}">Logout</a>
+
+</body>
+</html>
