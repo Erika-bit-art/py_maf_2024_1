@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Adicionar Contato{% endblock %}
+
+{% block content %}
+
+   <h1>Adicionar Contato</h1>
+   <form  method="post">
+       {% csrf_token %}
+       {% for field in form %}
+       <div class="form-group">
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.erros %}
+              <div class="alert alert-danger">
+                     {{ field.errors }}
+              </div>
+              {% endif %}
+       </div>
+       {% endfor %}
+
+       <button type="submit" class="btn btn-dark">Adicionar</button>
+   </form>
+   <a href="{%url 'login'}" class=" btn btn-link">Voltar ao Dashboard </a>
+
+{% endblock %}

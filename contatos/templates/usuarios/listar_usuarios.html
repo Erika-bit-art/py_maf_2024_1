@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title}Dashboard{% endblock %}
+
+{% block content %}
+
+      <h1>Listagem de Usuários</h1>
+
+      <ul>
+          {% for usuario in usuarios %}
+          <li>{{ usuario.nome }} - {{ usuario.num_contatos }} contatos</li>
+          {% endfor %}
+      </ul>
+
+{% endblock %}
