@@ -7,13 +7,19 @@
     <style>
         body {
             padding-top: 20px;
-            background-color: #601599
+            background-color: #f8f9fa
         }
         .container {
-            max-width: 800px;         <!-- essa parte toda mexe no laytout do dashboard -->
+            max-width: 800px;
         }
         .mt-5 {
-           margin-top: 3rem;
+            margin-top: 3rem;
+        }
+        .alert-error {
+            --bs-alert-color: var(--bs-danger-text-emphasis);
+            --bs-alert-bg: var(--bs-danger-bg-subtle);
+            --bs-alert-border-color: var(--bs-danger-border-subtle);
+            --bs-alert-link-color: var(--bs-danger-text-emphasis);
         }
 
         {% block extra_css %}{% endblock %}
@@ -21,6 +27,13 @@
 </head>
 <body>
 <div class="container">
+    {% if messages %}
+        <div class="mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
     {% block content %}{% endblock %}
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

@@ -3,16 +3,16 @@ from django.db import models
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=100)
-    idade = models.IntegerField(default=0)
+    idade = models.IntegerField()
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=100)
-    is_adim = models.BooleanField(
-        default=False)  #booleano FALSE pra dizer que por padrao TODOS usuarios NAo sao,por default, administrador
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    USERNAMED_FIELD = 'email'
-    REQUIRED_FIELD = ['nome', 'idade', 'senha']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nome', 'idade', 'senha']
 
     class Meta:
         verbose_name_plural = 'usuarios'
@@ -23,13 +23,16 @@ class Usuario(models.Model):
     def __str__(self):
         return self.nome
 
+    def get_by_natural_key(self, email):
+        return self.get(email=email)
+
     @property
     def is_anonymous(self):
         return False
 
     @property
     def is_authenticated(self):
-        return False
+        return True
 
     def has_perm(self, perm, obj=None):
         return True
@@ -43,7 +46,11 @@ class Contato(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField()
     telefone = models.CharField(max_length=20)
-    endereco = models.CharField(max_length=255, blank=True)
+    logradouro = models.CharField(max_length=255, default='')
+    bairro = models.CharField(max_length=100, default='')
+    cidade = models.CharField(max_length=100, default='')
+    uf = models.CharField(max_length=2, default='')
+    cep = models.CharField(max_length=10, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

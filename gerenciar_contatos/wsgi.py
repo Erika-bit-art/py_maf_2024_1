@@ -1,5 +1,5 @@
 """
-WSGI config for gerenciar_contatos project.
+WSGI config for gerenciador_contatos project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -8,9 +8,8 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gerenciar_contatos.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gerenciador_contatos.settings')
 
 application = get_wsgi_application()
