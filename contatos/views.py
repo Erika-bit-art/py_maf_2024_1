@@ -1,8 +1,10 @@
 import hashlib
+
+import query
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Usuario, Contato
 from .forms import UsuarioForm, ContatoForm, LoginForm
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from django.contrib.auth.decorators import user_passes_test, login_required
 
@@ -18,18 +20,7 @@ from django.contrib import messages
 
 #@login_required
 #@user_passes_test(is_admin)
-def listar_usuarios(request):
-    usuario_id = request.session.get('usuario_id')
-    if usuario_id:
-        usuario = Usuario.objects.get(id=usuario_id)
-        if usuario.is_admin:
-            usuarios = Usuario.objects.filter(is_admin=False).annotate(num_contatos=Count('contatos'))
-            return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
-        else:
-            messages.error(request, 'Você não tem permissão para acessar essa página.')
-            return redirect('dashboard')
-    else:
-        return redirect('login')
+
 
 
 #@login_required
@@ -53,6 +44,32 @@ def desativar_usuario(request, usuario_id):
             return redirect('login')
     except Usuario.DoesNotExist:
         messages.error(request, 'Usuário não encontrado.')
+
+
+def listar_usuarios(request):
+    usuario_id = request.session.get('usuario_id')
+    if usuario_id:
+        usuario = Usuario.objects.get(id=usuario_id)
+        if usuario.is_admin:
+
+            query = request.GET.get('q')
+            status = request.GET.get('status')
+            usuarios = Usuario.objects.all()
+
+            if query:
+                usuarios = usuarios.filter(Q(nome__icontains=query) | Q(email__icontains=query))
+
+                if status:
+                    is_active = True if status == 'ativo' else False
+                    usuarios = usuarios.filter(is_active=is_active)
+
+            usuarios = usuarios.filter(is_admin=False).annotate(num_contatos=Count('contatos'))
+            return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
+        else:
+            messages.error(request, 'Você não tem permissão para acessar essa página.')
+            return redirect('dashboard')
+    else:
+        return redirect('login')
 
 
 #@login_required

@@ -18,6 +18,7 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e">
       <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from usuario]]></console>
+      <console name="Sqlite3" type="STANDARD" schema="db" session="Main"><![CDATA[SELECT * FROM usuario;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
