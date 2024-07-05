@@ -1,21 +1,25 @@
+import hashlib
+
 from django import forms
+from django.contrib.auth.hashers import check_password
+
 from contatos.models import Usuario, Contato
 
 
-class BootstrapModelForm(forms.ModelForm):  # classe de criacao do FORMULARIO, associa atributos ja criados...
+class BootstrapModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():  # cria um dicionario (field_name in field...)
-            field.widget.attrs.update['class'] = 'form-control'
-            field.widget.attrs.update['placeholder'] = field.label
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
 
 
 class UsuarioForm(BootstrapModelForm):
     class Meta:
         model = Usuario
-        fields = ['nome', 'email', 'email', 'password']
+        fields = ['nome', 'idade', 'email', 'senha']
         widgets = {
-            'password': forms.PasswordInput(),
+            'senha': forms.PasswordInput(),
         }
 
 
@@ -24,37 +28,32 @@ class ContatoForm(BootstrapModelForm):
         model = Contato
         fields = ['nome', 'email', 'telefone', 'endereco']
         widgets = {
-
-            'telefone': forms.TextInput(attrs={'data-mask': '(000000000000'}),
+            'telefone': forms.TextInput(attrs={'data-mask': '(0000000000000'}),
             'endereco': forms.Textarea(attrs={'rows': 3}),
         }
 
 
-class LoginForm(BootstrapModelForm):
-    class Meta:
-        model = Usuario
-        fields = ['email', 'password']
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['email'].widget.attrs['placeholder'] = 'exemplo@dominio.com'
-            self.fields['password'].widget.attrs['placeholder'] = 'Sua senha'
+class LoginForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control', 'placeholder': 'exemplo@dominio.com'
+    }))
+    senha = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control', 'placeholder': 'Sua senha'
+    }))
 
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        senha = cleaned_data.get('senha')
 
-        def clean(self):
-            cleaned_data = super().clean()
-            email = cleaned_data.get('email')
-            password = cleaned_data.get('password')
+        if email and senha:
+            try:
+                usuario = Usuario.objects.get(email=email)
+                # Verifique a senha criptografada
+                hashed_password = hashlib.sha256(senha.encode('utf-8')).hexdigest()
+                if usuario.senha != hashed_password:
+                    raise forms.ValidationError('Senha incorreta.')
+            except Usuario.DoesNotExist:
+                raise forms.ValidationError('Email não encontrado.')
 
-            if email and password:
-                try:
-                    user = Usuario.objects.get(email=email)
-                    if not user.check_password(password):
-                        raise forms.ValidationError('Senha incorreta.')
-
-                except Usuario.DoesNotExist:
-                    raise forms.ValidationError('Email não cadastrado.')
-                return cleaned_data
-
+        return cleaned_data

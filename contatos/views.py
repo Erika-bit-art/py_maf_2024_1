@@ -1,16 +1,59 @@
 import hashlib
-from django.shortcuts import render, redirect
+
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Usuario, Contato
 from .forms import UsuarioForm, ContatoForm, LoginForm
 from django.db.models import Count
 
+
+# FUNÇÕES DE ADMINISTRADOR
+
+def is_admin(user):
+    return user.is_admin and user.is_authenticated
+
+
+@user_passes_test(is_admin)
+def listar_usuarios(request):
+    usuario_id = request.session.get('usuario_id')
+    if usuario_id:
+        usuarios = Usuario.objects.annotate(num_contatos=Count('contatos'))
+        return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
+    else:
+        return redirect('login')
+
+
+@user_passes_test(is_admin)
+def desativar_usuario(request):
+    usuario_id = request.session.get('usuario_id')
+    if usuario_id:
+        usuario = get_object_or_404(Usuario, id=usuario_id)
+        usuario.is_active = False
+        usuario.save()
+        return redirect('listar_usuarios')
+    else:
+        return redirect('login')
+
+
+@user_passes_test(is_admin)
+def excluir_usuario(request):
+    usuario_id = request.session.get('usuario_id')
+    if usuario_id:
+        usuario = get_object_or_404(Usuario, id=usuario_id)
+        usuario.is_active = False
+        usuario.delete()
+        return redirect('listar_usuarios')
+    else:
+        return redirect('login')
+
+# FUNÇÕES PARA NÃO ADMINISTRADORES
 
 def registro(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
             usuario = form.save(commit=False)
-            usuario.password = hashlib.md5(usuario.password.encode('utf-8')).hexdigest()
+            usuario.senha = hashlib.sha256(usuario.senha.encode('utf-8')).hexdigest()
             usuario.save()
             return redirect('login')
         else:
@@ -25,19 +68,15 @@ def login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            senhaCriptografada = hashlib.sha256(password.encode('utf-8')).hexdigest()
+            senha = form.cleaned_data['senha']
+            hashed_password = hashlib.sha256(senha.encode('utf-8')).hexdigest()
 
             try:
-                usuario = Usuario.objects.get(email=email, password=senhaCriptografada)
+                usuario = Usuario.objects.get(email=email, senha=hashed_password)
                 request.session['usuario_id'] = usuario.id
                 return redirect('dashboard')
             except Usuario.DoesNotExist:
-                form.add_error(None, 'Email ou senha incorretos')
-
-
-        else:
-            return render(request, 'usuarios/login.html', {'form': form})
+                form.add_error(None, 'Email ou senha incorretos.')
 
     else:
         form = LoginForm()
@@ -58,28 +97,24 @@ def adicionar_contato(request):
                 return render(request, 'contatos/adicionar_contato.html', {'form': form})
         else:
             form = ContatoForm()
-            return render(request, 'contatos/adicionar_contato.html', {'form': form})
+        return render(request, 'contatos/adicionar_contato.html', {'form': form})
     else:
         return redirect('login')
+
+
 def dashboard(request):
-    usuario_id = request.POST.get('usuario_id')
+    usuario_id = request.session.get('usuario_id')
+    print(f'usuario_id: {usuario_id}')
     if usuario_id:
-        usuario = Usuario.objects.filter(id=usuario_id)
-        contatos = Contato.objects.filter(id=usuario)
+        usuario = Usuario.objects.get(id=usuario_id)
+        print(f'usuario: {usuario}')
+        contatos = Contato.objects.filter(usuario=usuario)
+        print(f'contatos: {contatos}')
         return render(request, 'contatos/dashboard.html', {'usuario': usuario, 'contatos': contatos})
     else:
         return redirect('login')
 
 
-def listar_usuarios(request):
-    usuario_id = request.session.get('usuario_id')
-    if usuario_id:
-        usuarios = Usuario.objects.annotate(num_contatos=Count('contato'))
-        return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
-    else:
-        return redirect('login')
-def logout (request):
+def logout(request):
     request.session.flush()
     return redirect('login')
-
-

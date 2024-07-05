@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,12 @@ SECRET_KEY = 'django-insecure-*x8v6b8+nl5@%j7ez&p#zee@7!h94@6*_25e^@y!+akj)d(3i-
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# AUTHENTICATION
+AUTH_USER_MODEL = 'contatos.Usuario'
+LOGIN_URL = r'/contatos/login/'
+LOGIN_REDIRECT_URL = r'/contatos/dashboard/'
+
 
 
 # Application definition
@@ -77,7 +84,7 @@ WSGI_APPLICATION = 'gerenciar_contatos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': r'C:\Users\Èrika\PycharmProjects\gerenciar_contatos\db.sqlite3',
     }
 }
 
