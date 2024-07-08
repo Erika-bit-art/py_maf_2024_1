@@ -1,9 +1,7 @@
 import hashlib
-
-import query
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Usuario, Contato
-from .forms import UsuarioForm, ContatoForm, LoginForm
+from .forms import UsuarioForm, ContatoForm, LoginForm, PasswordChangeForm
 from django.db.models import Count, Q
 
 from django.contrib.auth.decorators import user_passes_test, login_required
@@ -20,7 +18,6 @@ from django.contrib import messages
 
 #@login_required
 #@user_passes_test(is_admin)
-
 
 
 #@login_required
@@ -54,14 +51,26 @@ def listar_usuarios(request):
 
             query = request.GET.get('q')
             status = request.GET.get('status')
+            idade = request.GET.get('idade')
             usuarios = Usuario.objects.all()
 
             if query:
                 usuarios = usuarios.filter(Q(nome__icontains=query) | Q(email__icontains=query))
 
-                if status:
-                    is_active = True if status == 'ativo' else False
-                    usuarios = usuarios.filter(is_active=is_active)
+            if status:
+                is_active = True if status == 'ativo' else False
+                usuarios = usuarios.filter(is_active=is_active)
+            else:
+                usuarios = usuarios.all()  # Retorna todos os usuários, independentemente do status
+
+            if idade:
+                try:
+                    idade = int(idade)
+                    faixa_min = idade - 3
+                    faixa_max = idade + 3
+                    usuarios = usuarios.filter(idade__range=(faixa_min, faixa_max))
+                except ValueError:
+                    pass  # se a idade não for um número, ele vai ignorar (pass)
 
             usuarios = usuarios.filter(is_admin=False).annotate(num_contatos=Count('contatos'))
             return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
@@ -207,8 +216,19 @@ def excluir_contato(request, contato_id):
 def dashboard(request):
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
-        usuario = Usuario.objects.get(id=usuario_id)
+        query = request.GET.get('q')
+        usuario = Usuario.objects.defer('senha').get(id=usuario_id) # defer oculta a senha na execuçao de dados
         contatos = Contato.objects.filter(usuario=usuario)
+
+        if query:
+            contatos = contatos.filter(
+                Q(nome__icontains=query) |
+                Q(email__icontains=query) |
+                Q(bairro__icontains=query) |
+                Q(cidade__icontains=query) |
+                Q(uf__icontains=query)
+            )
+
         return render(request, 'contatos/dashboard.html', {'usuario': usuario, 'contatos': contatos})
     else:
         return redirect('login')
@@ -217,3 +237,33 @@ def dashboard(request):
 def logout(request):
     request.session.flush()
     return redirect('login')
+
+
+def change_password(request):
+    usuario_id = request.session.get('usuario_id')
+    if usuario_id:
+        usuario = Usuario.objects.only('email').get(id=usuario_id)  # only expoe só o email, oculta os outros(senha..)
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.POST)
+            if form.is_valid():  # se validou no def clean la no forms, é isso q essa parte faz
+                old_password = form.cleaned_data['old_password']
+                new_password = form.cleaned_data['new_password']
+
+
+                if usuario.get(email=usuario.email, senha=hashlib.sha256(old_password.encode('utf-8')).hexdigest()):
+                    usuario.senha = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
+                    usuario.save()
+                    messages.success(request, 'Senha alterada com sucesso!')
+                    return redirect('dashboard')
+                else:
+                    form.add_error('old_password', 'A senha antiga está incorreta')
+
+        else:
+            form = PasswordChangeForm()
+
+        return render(request, 'usuários/change_password.html', {'form': form})
+    else:
+        return redirect('login')
+
+
+

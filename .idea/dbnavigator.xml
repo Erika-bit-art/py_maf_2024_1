@@ -18,14 +18,26 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e">
       <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from usuario]]></console>
-      <console name="Sqlite3" type="STANDARD" schema="db" session="Main"><![CDATA[SELECT * FROM usuario;]]></console>
+      <console name="Sqlite3" type="STANDARD" schema="db" session="Main"><![CDATA[SELECT * FROM usuario;
+
+UPDATE usuario
+SET is_admin = TRUE
+WHERE id = 1
+
+SELECT * FROM usuario;
+
+UPDATE Usuario SET is_admin = 0 WHERE id = 2
+
+SELECT * FROM usuario;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e" object-ref="consoles/Sqlite3" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e" />
