@@ -74,7 +74,7 @@ class PasswordChangeForm(forms.Form):        # TA ASSOCIADO AO VIEWS DE 'DEF MUD
     }))
 
 
-    def clean(self):                        # TA ASSOCIADO AO VIEWS DE 'DEF MUDAR SENHA' QUE NAO FOI FINALIZADO AINDA...
+    def clean(self):                        # TA ASSOCIADO AO VIEWS DE 'DEF MUDAR SENHA'
         cleaned_data = super().clean()
         old_password = cleaned_data.get('old_password')
         new_password = cleaned_data.get('new_password')

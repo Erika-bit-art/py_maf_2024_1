@@ -1,5 +1,13 @@
 import hashlib
+
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 from .models import Usuario, Contato
 from .forms import UsuarioForm, ContatoForm, LoginForm, PasswordChangeForm
 from django.db.models import Count, Q
@@ -22,6 +30,19 @@ from django.contrib import messages
 
 #@login_required
 #@user_passes_test(is_admin)
+
+
+def send_activation_email(request, usuario):
+    current_site = get_current_site(request)
+    mail_subject = 'Ative sua conta'
+    message = render_to_string('usuarios/activation_email.html', {
+
+        'user': usuario,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(usuario.pk)),
+        'token': default_token_generator.make_token(usuario),
+     })
+    send_mail(mail_subject, message, [usuario.email], fail_silently= False)
 def desativar_usuario(request, usuario_id):
     try:
         #usuario_logado = request.user
@@ -130,12 +151,31 @@ def adicionar_usuario(request):
             usuario = form.save(commit=False)
             usuario.senha = hashlib.sha256(usuario.senha.encode('utf-8')).hexdigest()
             usuario.save()
+            send_activation_email(request, usuario)
+            messages.success(request, 'Por favor, verifique o seu e-mail para ativar a sua conta.')
             return redirect('login')
         else:
             return render(request, 'usuarios/adicionar_usuario.html', {'form': form})
     else:
         form = UsuarioForm()
     return render(request, 'usuarios/adicionar_usuario.html', {'form': form})
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = Usuario.objects.defer('senha').get(pk=uid)
+    except (TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Conta ativada com sucesso. Você já pode fazer login agora.')
+        return redirect('login')
+    else:
+        messages.error(request, 'Link de ativação expirado.')
+        return redirect('registro')
+
 
 
 def login(request):
@@ -239,7 +279,7 @@ def logout(request):
     return redirect('login')
 
 
-def change_password(request):
+def change_password(request):   # TÁ COM ERRO, PROF VAI VER O Q É
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
         usuario = Usuario.objects.only('email').get(id=usuario_id)  # only expoe só o email, oculta os outros(senha..)
@@ -250,20 +290,23 @@ def change_password(request):
                 new_password = form.cleaned_data['new_password']
 
 
-                if usuario.get(email=usuario.email, senha=hashlib.sha256(old_password.encode('utf-8')).hexdigest()):
+                if Usuario.get(email=usuario.email, senha=hashlib.sha256(old_password.encode('utf-8')).hexdigest()):
                     usuario.senha = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
                     usuario.save()
                     messages.success(request, 'Senha alterada com sucesso!')
                     return redirect('dashboard')
                 else:
-                    form.add_error('old_password', 'A senha antiga está incorreta')
+                    messages.error(request, 'A senha antiga está incorreta', extra_tags='danger')
+            else:
+                messages.error(request, 'Por favor, corrija os erros', extra_tags='danger')
 
         else:
             form = PasswordChangeForm()
 
-        return render(request, 'usuários/change_password.html', {'form': form})
+        return render(request, 'usuarios/change_password.html', {'form': form})
     else:
         return redirect('login')
+
 
 
 
