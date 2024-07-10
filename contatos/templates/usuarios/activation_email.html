@@ -10,7 +10,7 @@
     <p>Olá {{ usuario.nome }}, </p>
     <p>Obrigada por se registrar. Clique no link abaixo para ativar a sua conta.</p>
     <p>
-      <a href="http://{ domain }{% url 'activate' uidb64=uid token=token %}"> Ativar</a>
+      <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}"> Ativar</a>
     </p>
     <p>Se você não se registrou, ignore este e-mail</p>
  </div>

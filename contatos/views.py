@@ -18,6 +18,8 @@ from django.contrib.auth import authenticate, login as auth_login
 
 from django.contrib import messages
 
+from .token_utils import generate_token
+
 
 # views para admin
 #def is_admin(user):
@@ -31,18 +33,27 @@ from django.contrib import messages
 #@login_required
 #@user_passes_test(is_admin)
 
+def resend_activation_email(request, usuario_id):
+    usuario = Usuario.objects.get(id=usuario_id)
+    if usuario:
+        send_activation_email(request, usuario)
+        return True
+
 
 def send_activation_email(request, usuario):
+    token = generate_token(usuario.pk)
     current_site = get_current_site(request)
     mail_subject = 'Ative sua conta'
     message = render_to_string('usuarios/activation_email.html', {
 
         'user': usuario,
         'domain': current_site.domain,
-        'uid': urlsafe_base64_encode(force_bytes(usuario.pk)),
-        'token': default_token_generator.make_token(usuario),
-     })
-    send_mail(mail_subject, message, [usuario.email], fail_silently= False)
+        'uid': urlsafe_base64_encode(force_bytes(usuario)),
+        'token': token,
+    })
+    send_mail(mail_subject, message, 'erika.fernandes@gmail.com',[usuario.email], fail_silently=False)
+
+
 def desativar_usuario(request, usuario_id):
     try:
         #usuario_logado = request.user
@@ -160,6 +171,7 @@ def adicionar_usuario(request):
         form = UsuarioForm()
     return render(request, 'usuarios/adicionar_usuario.html', {'form': form})
 
+
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -175,7 +187,6 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, 'Link de ativação expirado.')
         return redirect('registro')
-
 
 
 def login(request):
@@ -257,7 +268,8 @@ def dashboard(request):
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
         query = request.GET.get('q')
-        usuario = Usuario.objects.defer('senha').get(id=usuario_id) # defer oculta a senha na execuçao de dados
+        usuario = Usuario.objects.defer('senha').get(
+            id=usuario_id)  # defer() carrega todos os campos do modelo, exceto o(s) especificado(s)
         contatos = Contato.objects.filter(usuario=usuario)
 
         if query:
@@ -273,13 +285,12 @@ def dashboard(request):
     else:
         return redirect('login')
 
-
 def logout(request):
     request.session.flush()
     return redirect('login')
 
 
-def change_password(request):   # TÁ COM ERRO, PROF VAI VER O Q É
+def change_password(request):  # TÁ COM ERRO, PROF VAI VER O Q É
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
         usuario = Usuario.objects.only('email').get(id=usuario_id)  # only expoe só o email, oculta os outros(senha..)
@@ -288,7 +299,6 @@ def change_password(request):   # TÁ COM ERRO, PROF VAI VER O Q É
             if form.is_valid():  # se validou no def clean la no forms, é isso q essa parte faz
                 old_password = form.cleaned_data['old_password']
                 new_password = form.cleaned_data['new_password']
-
 
                 if Usuario.get(email=usuario.email, senha=hashlib.sha256(old_password.encode('utf-8')).hexdigest()):
                     usuario.senha = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
@@ -306,7 +316,3 @@ def change_password(request):   # TÁ COM ERRO, PROF VAI VER O Q É
         return render(request, 'usuarios/change_password.html', {'form': form})
     else:
         return redirect('login')
-
-
-
-

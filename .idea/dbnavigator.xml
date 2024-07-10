@@ -26,7 +26,8 @@ WHERE id = 1
 
 SELECT * FROM usuario;
 
-UPDATE Usuario SET is_admin = 0 WHERE id = 2
+UPDATE Usuario SET is_admin = 0 WHERE id = 1
+
 
 SELECT * FROM usuario;]]></console>
     </connection>

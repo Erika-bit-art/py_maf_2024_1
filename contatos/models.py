@@ -10,6 +10,7 @@ class Usuario(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    token = models.CharField(max_length=255, default='', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nome', 'idade', 'senha']

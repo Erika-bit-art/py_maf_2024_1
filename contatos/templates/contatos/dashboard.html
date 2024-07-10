@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="mt-5">
-        <h1 class="display-4">Bem-vindo(a), {{ usuario.nome }} :)</h1>
+        <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
         <div class="mb-3">
             {% if usuario.is_admin %}
                 <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
@@ -20,11 +20,9 @@
     <h2>Meus Contatos</h2>
     <div class="row">
         <form class="mb-3">
-            <input type="text" name='q' placeholder="Buscar por nome, email, bairro, cidade ou estado" class="form-control mb-2">
+            <input type="text" name="q" placeholder="Buscar por nome, email, bairro, cidade ou estado" class="form-control mb-2">
             <button type="submit" class="btn btn-dark">Buscar</button>
         </form>
-
-
         {% for contato in contatos %}
             <div class="col-md-4">
                 <div class="card mb-4">
