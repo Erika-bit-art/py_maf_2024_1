@@ -21,4 +21,3 @@ urlpatterns = [
     path('biblioteca/', include('biblioteca.urls')),
 
 ]
-

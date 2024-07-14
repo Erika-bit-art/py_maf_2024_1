@@ -14,6 +14,7 @@ from biblioteca.models import Usuario, Livro
 
 from django.db.models import Count, Q
 
+
 from django.contrib.auth.decorators import user_passes_test, login_required
 
 from django.contrib.auth import authenticate, login as auth_login
