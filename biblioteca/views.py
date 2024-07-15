@@ -9,11 +9,10 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from biblioteca.forms import LivroForm, UsuarioForm, LoginForm
-from biblioteca.models import Usuario, Livro
+from biblioteca.forms import LivroForm, UsuarioForm, LoginForm, Usuario, Livro
+
 
 from django.db.models import Count, Q
-
 
 from django.contrib.auth.decorators import user_passes_test, login_required
 
@@ -54,7 +53,7 @@ def login(request):
                     if usuario.is_active:
                         request.session['usuario_id'] = usuario.id
 
-                        return redirect('dashboard')
+                        return redirect('personalizar')
                     else:
                         form.add_error(None, 'Este usuário está desativado.')
             except Usuario.DoesNotExist:
@@ -65,7 +64,10 @@ def login(request):
 
 
 def dashboard(request):
+    nome = request.session.get('nome_usuario', 'visitante')
     usuario_id = request.session.get('usuario_id')
+    cor_preferida = request.COOKIE.get('cor_preferida', 'default')
+
     if usuario_id:
         usuario = Usuario.objects.defer('password').get(
             id=usuario_id)
@@ -90,7 +92,7 @@ def dashboard(request):
                 'usuario': usuario,
                 'livros': livros,
             }
-        return render(request, 'biblioteca/dashboard.html', context)
+        return render(request, 'biblioteca/dashboard.html', {'usuario': usuario, 'cor_preferida': cor_preferida})
     else:
         return redirect('login')
 
@@ -117,5 +119,16 @@ def adicionar_livro(request):
 
 def logout(request):
     request.session.flush()
-    return redirect('login')
+    response = redirect('login')
+    response.delete_cookie('cor_preferida')
+    return response
 
+
+def personalizar(request):
+    if request.method == 'POST':
+        cor_preferida = request.POST.get('cor_preferida')
+        request.session['cor_preferida'] = cor_preferida
+        response = redirect('dashboard')
+        response.set_cookie('cor_preferida', cor_preferida, max_age=3600)
+        return response
+    return render(request, 'biblioteca/personalizar.html')

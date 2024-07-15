@@ -5,7 +5,7 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
     email = models.EmailField(unique=True)
-    senha = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -13,7 +13,7 @@ class Usuario(models.Model):
     token = models.CharField(max_length=255, default='', blank=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nome', 'idade', 'senha']
+    REQUIRED_FIELDS = ['nome', 'idade', 'password']
 
     class Meta:
         verbose_name_plural = 'usuarios'
@@ -45,6 +45,8 @@ class Usuario(models.Model):
 class Livro(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='livros')
     nome = models.CharField(max_length=100)
+    autor = models.CharField(max_length=100, default='')
+    sinopse = models.CharField(max_length=500, default='')
     ano_de_publicacao = models.CharField(max_length=4)
     pais = models.CharField(max_length=15, default='')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,3 +60,4 @@ class Livro(models.Model):
 
     def __str__(self):
         return self.nome
+
