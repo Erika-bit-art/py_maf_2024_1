@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=100)
@@ -11,6 +11,7 @@ class Usuario(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     token = models.CharField(max_length=255, default='', blank=True)
+    cor_preferida = models.CharField(max_length=7, default='#FFFFFF')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nome', 'idade', 'password']

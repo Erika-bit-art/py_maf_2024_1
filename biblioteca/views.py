@@ -127,8 +127,12 @@ def logout(request):
 def personalizar(request):
     if request.method == 'POST':
         cor_preferida = request.POST.get('cor_preferida')
+        request.user.cor_preferida = cor_preferida  # Salva a cor no modelo do usuário
+        request.user.save()  # Salva as alterações no banco de dados
         request.session['cor_preferida'] = cor_preferida
         response = redirect('dashboard')
         response.set_cookie('cor_preferida', cor_preferida, max_age=3600)
         return response
-    return render(request, 'biblioteca/personalizar.html')
+
+    return render(request, 'biblioteca/personalizar.html', {'usuario': request.user})
+
