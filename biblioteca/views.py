@@ -66,7 +66,7 @@ def login(request):
 def dashboard(request):
     nome = request.session.get('nome_usuario', 'visitante')
     usuario_id = request.session.get('usuario_id')
-    cor_preferida = request.COOKIE.get('cor_preferida', 'default')
+    cor_preferida = request.COOKIES.get('cor_preferida', 'default')
 
     if usuario_id:
         usuario = Usuario.objects.defer('password').get(
