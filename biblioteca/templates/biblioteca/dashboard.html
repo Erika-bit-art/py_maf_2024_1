@@ -27,7 +27,7 @@
                      <img src="https://robohash.org/{{ livro.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ livro.nome }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ livro.nome }}</h5>
-                        <p class="card-text">{{ livro.ano_de_publicacao }}<br>{{ livro.pais }}<br>{{ livro.autor }}<br>{{ livro.sinopse }}<br>{{ livro.categoria}}</p>
+                        <p class="card-text">{{ livro.ano_de_publicacao }}<br>{{ livro.pais }}<br>{{ livro.autor }}<br>{{ livro.categoria}}</p>
                         <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ livro.id }}">Informações</button>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                                 <p><strong>País: </strong>{{ livro.pais}}</p>
                                 <p><strong>Categoria: </strong>{{ livro.categoria }}</p>
                                 <p><strong>Ano de Publicação: </strong>{{livro.ano_de_publicacao}}</p>
-                                <p><strong>Sinopse: </strong>{{ livro.sinopse }}</p>
+                                <p><strong>Sinopse: </strong>{{livro.sinopse}}</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
