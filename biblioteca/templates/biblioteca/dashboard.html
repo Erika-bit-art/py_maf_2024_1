@@ -1,72 +1,59 @@
+{% extends 'base.html' %}
+
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="mt-5">
-    <style>
-        body {
-            background-color: {{ cor_preferida }};
-        }
-    </style>
-
-    <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
-    <p>Sua cor preferida é: <strong>{{ cor_preferida }}</strong></p>
-
-    <form method="POST" action="{% url 'personalizar' %}">
-    {% csrf_token %}
-    <label for="cor_preferida">Escolha sua cor preferida:</label>
-    <input type="color" name="cor_preferida" id="cor_preferida" value="{{ usuario.cor_preferida }}">
-    <button type="submit" class="btn btn-success">Salvar</button>
-</form>
-
-
-    <div class="mb-3">
-        <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
-        {% if usuario.is_admin %}
-            <a href="{% url 'listar_usuarios' %}" class="btn btn-primary ml-2">Listar Livros</a>
-        {% else %}
-            <a href="{% url 'adicionar_livro' %}" class="btn btn-primary ml-2">Adicionar Livro</a>
-        {% endif %}
+    <div class="mt-5">
+        <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
+        <div class="mb-3">
+            {% if usuario.is_admin %}
+                <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
+            {% else  %}
+                <a href="{% url 'adicionar_livro' %}" class="btn btn-primary btn-sm mr-2">Adicionar Livro</a>
+            {% endif  %}
+            <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
+        </div>
     </div>
-</div>
 
-{% if not usuario.is_admin %}
-<h2>Meus Livros</h2>
-<div class="row">
-    {% for livro in livros %}
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="https://robohash.org/{{ livro.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ livro.nome }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ livro.nome }}</h5>
-                    <p class="card-text">{{ livro.ano_de_publicacao }}<br>{{ livro.pais }}<br>{{ livro.autor }}</p>
-                    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ livro.id }}">Informações</button>
+    {% if not usuario.is_admin %}
+    <h2>Meus Livros</h2>
+    <div class="row">
+        <form class="mb-3">
+            <button type="submit" class="btn btn-dark">Buscar</button>
+        </form>
+        {% for livro in livros %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                     <img src="https://robohash.org/{{ livro.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ livro.nome }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ livro.nome }}</h5>
+                        <p class="card-text">{{ livro.ano_de_publicacao }}<br>{{ livro.pais }}</p>
+                        <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ livro.id }}">Informações</button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- modal -->
-            <div class="modal fade" id="modal{{ livro.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ livro.id }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel{{ livro.id }}">Informações de {{ livro.nome }}</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p><strong>Ano de Publicação:</strong> {{ livro.ano_de_publicacao }}</p>
-                            <p><strong>País:</strong> {{ livro.pais }}</p>
-                            <p><strong>Autor(a):</strong> {{ livro.autor }}</p>
-                            <p><strong>Sinopse:</strong> {{ livro.sinopse }}</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <!-- modal -->
+                <div class="modal fade" id="modal{{ livro.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ livro.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" aria-labelledby="modalLabel{{ livro.id }}">Informações de {{ livro.nome }}</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Ano de Publicação: </strong>{{ livro.ano_de_publicacao }}</p>
+                                <p><strong>País: </strong>{{ livro.pais }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
-{% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 {% endblock %}

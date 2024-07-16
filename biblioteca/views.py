@@ -11,7 +11,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from biblioteca.forms import LivroForm, UsuarioForm, LoginForm, Usuario, Livro
 
-
 from django.db.models import Count, Q
 
 from django.contrib.auth.decorators import user_passes_test, login_required
@@ -29,7 +28,7 @@ def registrar_usuario(request):
             usuario.password = hashlib.sha256(usuario.password.encode('utf-8')).hexdigest()
             usuario.is_active = True
             usuario.save()
-            messages.success(request, 'Parabéns! Usuário registrado com sucesso!.')
+            messages.success(request, 'Parabéns Usuário registrado com sucesso!.')
             return redirect('login')
         else:
             return render(request, 'biblioteca/registro.html', {'form': form})
@@ -53,7 +52,7 @@ def login(request):
                     if usuario.is_active:
                         request.session['usuario_id'] = usuario.id
 
-                        return redirect('personalizar')
+                        return redirect('dashboard')
                     else:
                         form.add_error(None, 'Este usuário está desativado.')
             except Usuario.DoesNotExist:
@@ -66,11 +65,9 @@ def login(request):
 def dashboard(request):
     nome = request.session.get('nome_usuario', 'visitante')
     usuario_id = request.session.get('usuario_id')
-    cor_preferida = request.COOKIES.get('cor_preferida', 'default')
 
     if usuario_id:
-        usuario = Usuario.objects.defer('password').get(
-            id=usuario_id)
+        usuario = Usuario.objects.defer('password').get(id=usuario_id)
         if usuario.is_admin:
             total_usuarios = Usuario.objects.filter(is_admin=False).count()
             usuarios_ativos = Usuario.objects.filter(is_admin=False, is_active=True).count()
@@ -85,14 +82,13 @@ def dashboard(request):
                 'ultimos_usuarios': ultimos_usuarios
             }
         else:
-
             livros = Livro.objects.filter(usuario=usuario)
 
             context = {
                 'usuario': usuario,
                 'livros': livros,
             }
-        return render(request, 'biblioteca/dashboard.html', {'usuario': usuario, 'cor_preferida': cor_preferida})
+        return render(request, 'biblioteca/dashboard.html', context)
     else:
         return redirect('login')
 
@@ -120,19 +116,4 @@ def adicionar_livro(request):
 def logout(request):
     request.session.flush()
     response = redirect('login')
-    response.delete_cookie('cor_preferida')
     return response
-
-
-def personalizar(request):
-    if request.method == 'POST':
-        cor_preferida = request.POST.get('cor_preferida')
-        request.user.cor_preferida = cor_preferida  # Salva a cor no modelo do usuário
-        request.user.save()  # Salva as alterações no banco de dados
-        request.session['cor_preferida'] = cor_preferida
-        response = redirect('dashboard')
-        response.set_cookie('cor_preferida', cor_preferida, max_age=3600)
-        return response
-
-    return render(request, 'biblioteca/personalizar.html', {'usuario': request.user})
-
