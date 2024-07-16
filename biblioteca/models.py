@@ -52,7 +52,7 @@ class Livro(models.Model):
     pais = models.CharField(max_length=15, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    categoria = models.CharField(max_length=100, default='')
     class Meta:
         db_table = 'livro'
         verbose_name = 'livro'

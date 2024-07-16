@@ -26,7 +26,7 @@ class UsuarioForm(BootstrapModelForm):
 class LivroForm(BootstrapModelForm):
     class Meta:
         model = Livro
-        fields = ['nome', 'ano_de_publicacao', 'pais', 'autor', 'sinopse']
+        fields = ['nome', 'ano_de_publicacao', 'pais', 'autor', 'sinopse', 'categoria']
 
 
 class LoginForm(forms.Form):
