@@ -27,10 +27,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'biblioteca.Usuario'
-LOGIN_URL = '/biblioteca/accounts/login/'
-LOGIN_REDIRECT_URL = '/biblioteca/dashboard/'  # URL para onde o usuário será redirecionado após o login
-LOGOUT_REDIRECT_URL = '/biblioteca/accounts/login/'  # URL para onde o usuário será redirecionado após o logout
-
+LOGIN_URL = '/biblioteca/login/'
+LOGIN_REDIRECT_URL = '/biblioteca/dashboard/'
 
 
 

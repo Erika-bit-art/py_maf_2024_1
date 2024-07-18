@@ -9,7 +9,7 @@
         <a href="{% url 'dashboard' %}" class="btn btn-primary mr-2">Dashboard</a>
         <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
     </div>
-    <form class="mb-3">
+    <form class="mb-3" method="get">
         <input type="text" name="q" placeholder="Buscar por nome ou email" class="form-control mb-2">
         <input type="number" name="idade" min="0" max="200" placeholder="Buscar por idade aproximada" class="form-control mb-2">
         <select name="status" class="form-control mb-2">

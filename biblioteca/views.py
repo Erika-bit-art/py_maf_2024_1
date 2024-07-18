@@ -120,15 +120,27 @@ def logout(request):
 
 
 # VIEWS DE ADMIN
+
 def is_admin(user):
     return user.is_authenticated and user.is_admin
-@user_passes_test(is_admin)
+
+
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.db.models import Count
+from .models import Usuario
+
+def is_admin(user):
+    return user.is_authenticated and user.is_admin
+
+@user_passes_test(is_admin, login_url='/biblioteca/login/')
 def listar_usuarios(request):
     if request.user.is_authenticated and request.user.is_admin:
         usuarios = Usuario.objects.filter(is_admin=False).annotate(num_livros=Count('livros'))
         return render(request, 'biblioteca/listar_usuarios.html', {'usuarios': usuarios})
     else:
-        messages.error(request, 'Você não tem permissão para acessar essa página')
+        messages.error(request, 'Você não tem permissão para acessar essa página.')
         return redirect('dashboard')
 
 @user_passes_test(is_admin)

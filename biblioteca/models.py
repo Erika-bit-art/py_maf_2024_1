@@ -1,17 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
 class Usuario(models.Model):
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     token = models.CharField(max_length=255, default='', blank=True)
-
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nome', 'idade', 'password']
@@ -43,6 +46,7 @@ class Usuario(models.Model):
         return True
 
 
+
 class Livro(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='livros')
     nome = models.CharField(max_length=100)
@@ -53,12 +57,11 @@ class Livro(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     categoria = models.CharField(max_length=100, default='')
+
     class Meta:
         db_table = 'livro'
         verbose_name = 'livro'
         ordering = ['nome']  # ordem alfabetica
 
-
     def __str__(self):
         return self.nome
-
