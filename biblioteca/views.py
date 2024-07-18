@@ -123,76 +123,45 @@ def logout(request):
 def is_admin(user):
     return user.is_authenticated and user.is_admin
 
-
-@user_passes_test(is_admin)
 def listar_usuarios(request):
-    usuario_id = request.session.get('usuario_id')
-    if usuario_id:
-        usuario = Usuario.objects.get(id=usuario_id)
-        if usuario.is_admin:
-            usuarios = Usuario.objects.filter(is_admin=False).annotate(num_livros=Count('livros'))
-            return render(request, 'biblioteca/listar_usuarios.html', {'usuarios': usuarios})
-        else:
-            messages.error(request, 'Você não tem permissão para acessar essa página')
-            return redirect('dashboard')
-
+    if request.user.is_authenticated and request.user.is_admin:
+        usuarios = Usuario.objects.filter(is_admin=False).annotate(num_livros=Count('livros'))
+        return render(request, 'biblioteca/listar_usuarios.html', {'usuarios': usuarios})
     else:
-        return redirect('login')
-
+        messages.error(request, 'Você não tem permissão para acessar essa página')
+        return redirect('dashboard')
 
 @user_passes_test(is_admin)
 def desativar_usuario(request, usuario_id):
     try:
-        usuario_logado_id = request.session.get('usuario_id')
-        usuario_logado = Usuario.objects.get(id=usuario_logado_id)
-        if usuario_logado:
-            usuario_a_desativar = get_object_or_404(Usuario, id=usuario_id)
-            if usuario_logado.is_admin:
-                usuario_a_desativar.is_active = False
-                usuario_a_desativar.save()
-                messages.success(request, f'Usuário {usuario_a_desativar.nome}desativado com sucesso!')
-            else:
-                messages.error(request, 'Você não tem permissão para desativar outro usuário')
-                return redirect('dashboard')
-            return redirect('listar_usuarios')
-        else:
-            return redirect('login')
+        usuario_a_desativar = get_object_or_404(Usuario, id=usuario_id)
+        usuario_a_desativar.is_active = False
+        usuario_a_desativar.save()
+        messages.success(request, f'Usuário {usuario_a_desativar.nome} desativado com sucesso!')
+        return redirect('listar_usuarios')
     except Usuario.DoesNotExist:
         messages.error(request, 'Usuário não encontrado')
+        return redirect('listar_usuarios')
 
+@user_passes_test(is_admin)
 def reativar_usuario(request, usuario_id):
     try:
-        usuario_logado_id = request.session.get('usuario_id')
-        usuario_logado = Usuario.objects.get(id=usuario_logado_id)
-        if usuario_logado:
-            usuario_a_reativar = get_object_or_404(Usuario, id=usuario_id)
-            if usuario_logado.is_admin:
-                usuario_a_reativar.is_active = True
-                usuario_a_reativar.save()
-                messages.success(request, f'Usuário {usuario_a_reativar.nome} reativado com sucesso!')
-            else:
-                messages.error(request, 'Você não tem permissão para reativar usuários')
-                return redirect('dashboard')
-            return redirect('listar_usuarios')
-        else:
-            return redirect('login')
+        usuario_a_reativar = get_object_or_404(Usuario, id=usuario_id)
+        usuario_a_reativar.is_active = True
+        usuario_a_reativar.save()
+        messages.success(request, f'Usuário {usuario_a_reativar.nome} reativado com sucesso!')
+        return redirect('listar_usuarios')
     except Usuario.DoesNotExist:
         messages.error(request, 'Usuário não encontrado')
-
-
+        return redirect('listar_usuarios')
 
 @user_passes_test(is_admin)
 def excluir_usuario(request, usuario_id):
-    usuario_logado_id = request.session.get('usuario_id')
-    usuario_logado = Usuario.objects.get(id=usuario_logado_id)
-    if usuario_logado:
+    try:
         usuario_a_ser_excluido = get_object_or_404(Usuario, id=usuario_id)
-        if usuario_logado.is_admin:
-           usuario_a_ser_excluido.delete()
-           messages.success(request, f'Usuário {usuario_a_ser_excluido.nome} excluído com sucesso!')
-
-        else:
-            messages.error(request, 'Você não tem permissão para excluir usuários')
-            return redirect('listar_usuarios')
-    else:
-        return redirect('login')
+        usuario_a_ser_excluido.delete()
+        messages.success(request, f'Usuário {usuario_a_ser_excluido.nome} excluído com sucesso!')
+        return redirect('listar_usuarios')
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuário não encontrado')
+        return redirect('listar_usuarios')
