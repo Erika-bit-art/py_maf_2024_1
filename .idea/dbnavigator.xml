@@ -29,9 +29,7 @@ select * from usuario]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="27b6fa2d-6c0e-473b-862e-9f070e9910e0" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="27b6fa2d-6c0e-473b-862e-9f070e9910e0" />

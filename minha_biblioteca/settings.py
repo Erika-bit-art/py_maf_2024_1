@@ -26,6 +26,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+#AUTHENTICATION
+
+AUTH_USER_MODEL = 'livros.Usuario'
+LOGIN_URL = '/biblioteca/login/'
+LOGIN_REDIRECT_URL = '/biblioteca/dashboard/'
+
 # Application definition
 
 INSTALLED_APPS = [
