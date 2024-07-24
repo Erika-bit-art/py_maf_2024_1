@@ -1,13 +1,10 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
-import base64
-
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nome, idade, password=None, is_admin=False, is_active=False):
         if not email:
             raise ValueError('O campo email é obrigatório')
-
         if not nome:
             raise ValueError('O campo nome é obrigatório')
 
@@ -35,7 +32,6 @@ class UsuarioManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
 class Usuario(AbstractBaseUser):
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
@@ -48,48 +44,13 @@ class Usuario(AbstractBaseUser):
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nome', 'idade', 'password']
+    REQUIRED_FIELDS = ['nome', 'idade']  # Não inclua 'password' aqui
 
     class Meta:
         verbose_name_plural = 'usuarios'
         db_table = 'usuario'
         verbose_name = 'usuario'
-        ordering = ['-created_at']  # created_at do mais recente
-
-    def __str__(self):
-        return self.nome
-
-    def get_by_natural_key(self, email):
-        return self.get(email=email)
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    @property
-    def is_authenticated(self):
-        return True
-
-
-class Contato(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='contatos')
-    nome = models.CharField(max_length=100)
-    email = models.EmailField()
-    telefone = models.CharField(max_length=20)
-    logradouro = models.CharField(max_length=255, default='')
-    bairro = models.CharField(max_length=100, default='')
-    cidade = models.CharField(max_length=100, default='')
-    uf = models.CharField(max_length=2, default='')
-    cep = models.CharField(max_length=10, default='')
-    foto_base64 = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'contato'
-        verbose_name = 'contato'
-        ordering = ['nome']  # ordem alfabetica
-        unique_together = ('usuario', 'email')
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.nome
