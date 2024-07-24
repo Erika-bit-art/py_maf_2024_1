@@ -31,14 +31,13 @@ AUTH_USER_MODEL = 'contatos.Usuario'
 LOGIN_URL = '/contatos/login/'
 LOGIN_REDIRECT_URL = '/contatos/dashboard/'
 
-
-# Email Definition
+# Email Definitions
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'erika.fernandes@gmail.com'
-EMAIL_HOST_PASSWORD = 'dzzz cywb brgx ylcg'
+EMAIL_HOST_USER = 'erika.fernandes1409@gmail.com'
+EMAIL_HOST_PASSWORD = 'jtkl ncnk rkcc cbye'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'erika.fernandes@gmail.com'
+DEFAULT_FROM_EMAIL = 'erika.fernandes1409@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Application definition

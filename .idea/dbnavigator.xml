@@ -12,36 +12,22 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from usuario]]></console>
-      <console name="Sqlite3" type="STANDARD" schema="db" session="Main"><![CDATA[SELECT * FROM usuario;
-
-UPDATE usuario
-SET is_admin = TRUE
-WHERE id = 1
-
-SELECT * FROM usuario;
-
-UPDATE Usuario SET is_admin = 0 WHERE id = 1
-
-
-SELECT * FROM usuario;]]></console>
+    <connection id="c355b6d9-ae39-4272-9bf0-7112702a503d">
+      <console name="SQLITE_3" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e" object-ref="consoles/Sqlite3" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e" />
+    <connection id="c355b6d9-ae39-4272-9bf0-7112702a503d" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -60,9 +46,9 @@ SELECT * FROM usuario;]]></console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="20eb9f23-aaef-4f66-9dfa-5998cfa02e6e" active="true" signed="true">
+      <connection id="c355b6d9-ae39-4272-9bf0-7112702a503d" active="true" signed="true">
         <database>
-          <name value="Sqlite3" />
+          <name value="SQLITE_3" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
