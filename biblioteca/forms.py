@@ -1,8 +1,5 @@
 import hashlib
-
 from django import forms
-from django.contrib.auth.hashers import check_password
-
 from biblioteca.models import Usuario, Livro
 
 
