@@ -134,14 +134,32 @@ from .models import Usuario
 def is_admin(user):
     return user.is_authenticated and user.is_admin
 
-@user_passes_test(is_admin, login_url='/biblioteca/login/')
+
 def listar_usuarios(request):
-    if request.user.is_authenticated and request.user.is_admin:
-        usuarios = Usuario.objects.filter(is_admin=False).annotate(num_livros=Count('livros'))
-        return render(request, 'biblioteca/listar_usuarios.html', {'usuarios': usuarios})
-    else:
-        messages.error(request, 'Você não tem permissão para acessar essa página.')
-        return redirect('dashboard')
+    query = request.GET.get('q')
+    status = request.GET.get('status')
+    idade = request.GET.get('idade')
+    usuarios = Usuario.objects.all()
+
+    if query:
+        usuarios = usuarios.filter(Q(nome__icontains=query) | Q(email__icontains=query))
+
+    if status:
+        is_active = True if status == 'ativo' else False
+        usuarios = usuarios.filter(is_active=is_active)
+
+    if idade:
+        try:
+            idade = int(idade)
+            faixa_min = idade - 3
+            faixa_max = idade + 3
+            usuarios = usuarios.filter(idade__range=(faixa_min, faixa_max))
+
+        except ValueError:
+            pass  # Se a idade não for um número, ignorar este filtro.
+
+    usuarios = usuarios.filter(is_admin=False).annotate(contatos_count=Count('livros'))
+    return render(request, 'biblioteca/listar_usuarios.html', {'usuarios': usuarios})
 
 @user_passes_test(is_admin)
 def desativar_usuario(request, usuario_id):
