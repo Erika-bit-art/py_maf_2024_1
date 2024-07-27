@@ -16,14 +16,8 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="27b6fa2d-6c0e-473b-862e-9f070e9910e0">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from usuario 
-UPDATE usuario 
-set is_admin = 1
-where id = 2;
-
-select * from usuario]]></console>
-      <console name="Sqlite3" type="STANDARD" schema="" session="Main"><![CDATA[select * from usuario]]></console>
+    <connection id="a63a309d-615b-4441-bf3d-63b33e53d6b4">
+      <console name="SQLITE" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -33,10 +27,18 @@ select * from usuario]]></console>
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="27b6fa2d-6c0e-473b-862e-9f070e9910e0" />
+    <connection id="a63a309d-615b-4441-bf3d-63b33e53d6b4" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.MethodExecutionManager">
+    <method-browser />
+    <execution-history>
+      <group-entries value="true" />
+      <execution-inputs />
+    </execution-history>
+    <argument-values-cache />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
@@ -44,9 +46,9 @@ select * from usuario]]></console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="27b6fa2d-6c0e-473b-862e-9f070e9910e0" active="true" signed="true">
+      <connection id="a63a309d-615b-4441-bf3d-63b33e53d6b4" active="true" signed="true">
         <database>
-          <name value="Sqlite3" />
+          <name value="SQLITE" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />

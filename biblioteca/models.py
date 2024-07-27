@@ -1,7 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
-import base64
-
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nome, idade, password=None, is_admin=False, is_active=False):
@@ -35,7 +33,6 @@ class UsuarioManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
 class Usuario(AbstractBaseUser):
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
@@ -48,20 +45,16 @@ class Usuario(AbstractBaseUser):
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nome', 'idade', 'password']
-
+    REQUIRED_FIELDS = ['nome', 'idade']
 
     class Meta:
         verbose_name_plural = 'usuarios'
         db_table = 'usuario'
         verbose_name = 'usuario'
-        ordering = ['-created_at']  # created_at do mais recente
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.nome
-
-    def get_by_natural_key(self, email):
-        return self.get(email=email)
 
     @property
     def is_anonymous(self):
@@ -70,7 +63,6 @@ class Usuario(AbstractBaseUser):
     @property
     def is_authenticated(self):
         return True
-
 
 class Livro(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='livros')
@@ -86,7 +78,7 @@ class Livro(models.Model):
     class Meta:
         db_table = 'livro'
         verbose_name = 'livro'
-        ordering = ['nome']  # ordem alfabetica
+        ordering = ['nome']
 
     def __str__(self):
         return self.nome
