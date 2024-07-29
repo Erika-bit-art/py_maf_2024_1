@@ -9,7 +9,7 @@ urlpatterns = [
     path('registro/', views.registrar_usuario, name='registrar_usuario'),
 
     # URL para a página de login
-    path('login/', auth_views.LoginView.as_view(), name='login'),  # Usando a view de login padrão do Django
+    path('login/', views.login, name='login'),  # Usando a view de login padrão do Django
 
     path('adicionar/', views.adicionar_produto, name='adicionar_produto'),
     path('admin/biblioteca/', include([

@@ -23,6 +23,8 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 
 
+
+
 def registrar_usuario(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -192,43 +194,35 @@ def reativar_usuario(request, usuario_id):
         return redirect('listar_usuarios')
 
 
-@user_passes_test(is_admin)
-def excluir_usuario(request, usuario_id):
-    try:
-        usuario_a_ser_excluido = get_object_or_404(Usuario, id=usuario_id)
-        usuario_a_ser_excluido.delete()
-        messages.success(request, f'Usuário {usuario_a_ser_excluido.nome} excluído com sucesso!')
-        return redirect('listar_usuarios')
-    except Usuario.DoesNotExist:
-        messages.error(request, 'Usuário não encontrado')
-        return redirect('listar_usuarios')
 
-
-@login_required
 def editar_produto(request, produto_id):
-    # Obtém o produto ou retorna 404 se não encontrado
     produto = get_object_or_404(Produto, id=produto_id, usuario_id=request.session.get('usuario_id'))
-
     if request.method == 'POST':
         form = ProdutoForm(request.POST, request.FILES, instance=produto)
         if form.is_valid():
-            produto = form.save()  # Salva o produto sem manipulação de imagem
-            messages.success(request, f'Produto \'{produto.nome}\' atualizado com sucesso!')
-            return redirect('dashboard')  # Redireciona para o dashboard ou outra página desejada
+            produto = form.save(commit=False)
+
+            if 'foto' in request.FILES:
+                imagem = Image.open(request.FILES['foto'])
+                imagem = imagem.resize((300, 300), Image.LANCZOS)
+                buffered = io.BytesIO()
+                imagem.save(buffered, format="PNG")
+                produto.foto_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+            produto.save()
+            messages.success(request, f'Produto\'{produto.nome}\' atualizado com sucesso!')
+            return redirect('dashboard')
     else:
         form = ProdutoForm(instance=produto)
-
     return render(request, 'estoque/editar_produto.html', {'form': form, 'produto': produto})
 
 
-@login_required
+
 def excluir_produto(request, produto_id):
-    # Obtém o produto ou retorna 404 se não encontrado
     produto = get_object_or_404(Produto, id=produto_id, usuario_id=request.session.get('usuario_id'))
-
     if request.method == 'POST':
-        produto.delete()  # Exclui o produto
-        messages.success(request, 'Produto excluído com sucesso!')
-        return redirect('dashboard')  # Redireciona para o dashboard ou outra página desejada
-
+        produto.delete()
+        messages.success(request, f'Produto excluído com sucesso!')
+        return redirect('dashboard')
     return render(request, 'estoque/excluir_produto.html', {'produto': produto})
+

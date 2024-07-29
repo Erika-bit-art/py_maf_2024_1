@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7296753-8615-41e2-9f78-9146f0e5287c" name="Changes" comment="WIP: TRABALHO SISTEMA DE GERENCIAMENTO ESTOQUE">
-      <change afterPath="$PROJECT_DIR$/estoque/templates/estoque/editar_produto.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/estoque/templates/estoque/excluir_produto.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/estoque/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/estoque/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/estoque/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/estoque/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/estoque/templates/estoque/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/estoque/templates/estoque/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/estoque/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/estoque/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/estoque/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/estoque/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gerenciamento_estoque/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/gerenciamento_estoque/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -63,6 +60,13 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Èrika\PycharmProjects\gerenciamento_estoque\estoque\templates\estoque" />
+      <recent name="C:\Users\Èrika\PycharmProjects\gerenciamento_estoque\estoque\templates\registration" />
+      <recent name="C:\Users\Èrika\PycharmProjects\gerenciamento_estoque\estoque\templates\registration\estoque" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="DjandoServer" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="python manage.py runserver" />
@@ -112,7 +116,23 @@
       <option name="project" value="LOCAL" />
       <updated>1722212374854</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="WIP: TRABALHO SISTEMA DE GERENCIAMENTO ESTOQUE">
+      <option name="closed" value="true" />
+      <created>1722287058663</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722287058663</updated>
+    </task>
+    <task id="LOCAL-00004" summary="WIP: TRABALHO SISTEMA DE GERENCIAMENTO ESTOQUE">
+      <option name="closed" value="true" />
+      <created>1722290643803</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1722290643803</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
