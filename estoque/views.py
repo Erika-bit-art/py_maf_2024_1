@@ -204,35 +204,31 @@ def excluir_usuario(request, usuario_id):
         return redirect('listar_usuarios')
 
 
-
-
-
+@login_required
 def editar_produto(request, produto_id):
+    # Obtém o produto ou retorna 404 se não encontrado
     produto = get_object_or_404(Produto, id=produto_id, usuario_id=request.session.get('usuario_id'))
+
     if request.method == 'POST':
         form = ProdutoForm(request.POST, request.FILES, instance=produto)
         if form.is_valid():
-            produto = form.save(commit=False)
-
-            if 'foto' in request.FILES:
-                imagem = Image.open(request.FILES['foto'])
-                imagem = imagem.resize((300, 300), Image.LANCZOS)
-                buffered = io.BytesIO()
-                imagem.save(buffered, format="PNG")
-                produto.foto_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
-
-            produto.save()
+            produto = form.save()  # Salva o produto sem manipulação de imagem
             messages.success(request, f'Produto \'{produto.nome}\' atualizado com sucesso!')
-            return redirect('dashboard')
+            return redirect('dashboard')  # Redireciona para o dashboard ou outra página desejada
     else:
         form = ProdutoForm(instance=produto)
+
     return render(request, 'estoque/editar_produto.html', {'form': form, 'produto': produto})
 
 
+@login_required
 def excluir_produto(request, produto_id):
+    # Obtém o produto ou retorna 404 se não encontrado
     produto = get_object_or_404(Produto, id=produto_id, usuario_id=request.session.get('usuario_id'))
+
     if request.method == 'POST':
-        produto.delete()
-        messages.success(request, f'Produto excluído com sucesso!')
-        return redirect('dashboard')
+        produto.delete()  # Exclui o produto
+        messages.success(request, 'Produto excluído com sucesso!')
+        return redirect('dashboard')  # Redireciona para o dashboard ou outra página desejada
+
     return render(request, 'estoque/excluir_produto.html', {'produto': produto})

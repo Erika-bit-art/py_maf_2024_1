@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# AUTHENTICATION
+AUTH_USER_MODEL = 'estoque.Usuario'
+LOGIN_URL = '/estoque/login/'
+LOGIN_REDIRECT_URL = '/estoque/dashboard/'
+
 
 # Application definition
 
