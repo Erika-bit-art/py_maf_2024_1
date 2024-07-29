@@ -56,19 +56,14 @@
         </ul>
     </div>
     {% else %}
-    <h2>Meus Produtos</h2>
-    <div class="row">
-        <form class="mb-3">
-            <input type="text" name="q" placeholder="Buscar por nome, email, bairro, cidade ou estado" class="form-control mb-2">
-            <button type="submit" class="btn btn-dark">Buscar</button>
-        </form>
+
         {% for produto in produtos %}
             <div class="col-md-4">
                 <div class="card mb-4">
                     <img src="https://robohash.org/{{ produto.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ produto.nome }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ produto.nome }}</h5>
-                        <p class="card-text">{{ produto.data_validade }}<br>{{ produto.pais }}<br>{{ produto.marca }}<br>{{ produto.modo_uso }}</p>
+                        <h5 class="card-title"> <b>Nome:</b> {{ produto.nome }}</h5>
+                        <p class="card-text"> <br> <b>País:</b> {{ produto.pais }}<br> <b>Categoria: </b> {{produto.categoria}}<br><b>Marca:</b> {{ produto.marca }}<br><b>Validade:</b> {{produto.data_validade}}</p>
                         <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ produto.id }}">Informações</button>
                     </div>
                 </div>
@@ -78,16 +73,16 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" aria-labelledby="modalLabel{{ produto.id }}">Endereço de {{produto.nome}}</h5>
+                                <h5 class="modal-title" aria-labelledby="modalLabel{{ produto.id }}">Informações de {{produto.nome}}</h5>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p><strong>Autor: </strong>{{ produto.marca }}</p>
+                                <p><strong>Nome: </strong>{{ produto.nome }}</p>
                                 <p><strong>Categoria: </strong>{{ produto.categoria }}</p>
-                                <p><strong>Ano de Publicação: </strong>{{produto.data_validade}}</p>
-                                <p><strong>Sinopse: </strong>{{ produto.descricao }}</p>
+                                <p><strong>Data de Validade: </strong>{{produto.data_validade}}</p>
+                                <p><strong>Descrição: </strong>{{ produto.descricao }}</p>
                                 <p><strong>País: </strong>{{ produto.pais }}</p>
                             </div>
                             <div class="modal-footer">

@@ -20,7 +20,7 @@ class UsuarioForm(BootstrapModelForm):
 class ProdutoForm(BootstrapModelForm):
     class Meta:
         model = Produto
-        fields = ['nome', 'data_validade', 'pais', 'marca', 'descricao', 'modo_uso']
+        fields = ['nome', 'data_validade', 'pais','categoria', 'marca', 'descricao', 'modo_uso']
 
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={

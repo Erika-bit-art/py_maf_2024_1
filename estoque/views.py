@@ -1,6 +1,9 @@
+import base64
 import hashlib
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 import io
+from tkinter import Image
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
@@ -131,6 +134,7 @@ from django.contrib import messages
 from django.db.models import Count
 from .models import Usuario
 
+
 def is_admin(user):
     return user.is_authenticated and user.is_admin
 
@@ -158,8 +162,9 @@ def listar_usuarios(request):
         except ValueError:
             pass  # Se a idade não for um número, ignorar este filtro.
 
-    usuarios = usuarios.filter(is_admin=False).annotate(contatos_count=Count('produtos'))
+    usuarios = usuarios.filter(is_admin=False).annotate(produtos_count=Count('produtos'))
     return render(request, 'estoque/listar_usuarios.html', {'usuarios': usuarios})
+
 
 @user_passes_test(is_admin)
 def desativar_usuario(request, usuario_id):
@@ -173,6 +178,7 @@ def desativar_usuario(request, usuario_id):
         messages.error(request, 'Usuário não encontrado')
         return redirect('listar_usuarios')
 
+
 @user_passes_test(is_admin)
 def reativar_usuario(request, usuario_id):
     try:
@@ -185,6 +191,7 @@ def reativar_usuario(request, usuario_id):
         messages.error(request, 'Usuário não encontrado')
         return redirect('listar_usuarios')
 
+
 @user_passes_test(is_admin)
 def excluir_usuario(request, usuario_id):
     try:
@@ -195,3 +202,37 @@ def excluir_usuario(request, usuario_id):
     except Usuario.DoesNotExist:
         messages.error(request, 'Usuário não encontrado')
         return redirect('listar_usuarios')
+
+
+
+
+
+def editar_produto(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id, usuario_id=request.session.get('usuario_id'))
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, request.FILES, instance=produto)
+        if form.is_valid():
+            produto = form.save(commit=False)
+
+            if 'foto' in request.FILES:
+                imagem = Image.open(request.FILES['foto'])
+                imagem = imagem.resize((300, 300), Image.LANCZOS)
+                buffered = io.BytesIO()
+                imagem.save(buffered, format="PNG")
+                produto.foto_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+            produto.save()
+            messages.success(request, f'Produto \'{produto.nome}\' atualizado com sucesso!')
+            return redirect('dashboard')
+    else:
+        form = ProdutoForm(instance=produto)
+    return render(request, 'estoque/editar_produto.html', {'form': form, 'produto': produto})
+
+
+def excluir_produto(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id, usuario_id=request.session.get('usuario_id'))
+    if request.method == 'POST':
+        produto.delete()
+        messages.success(request, f'Produto excluído com sucesso!')
+        return redirect('dashboard')
+    return render(request, 'estoque/excluir_produto.html', {'produto': produto})
