@@ -70,7 +70,7 @@ class Produto(models.Model):
     marca = models.CharField(max_length=100, default='')
     descricao = models.CharField(max_length=500, default='')
     categoria = models.CharField(max_length=50, default='')
-    data_validade = models.CharField(max_length=4)
+    data_validade = models.CharField(max_length=100)
     pais = models.CharField(max_length=15, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
