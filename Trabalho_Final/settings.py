@@ -28,6 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# AUTHENTICATION
+AUTH_USER_MODEL = 'registros.Usuario'
+LOGIN_URL = '/registros/login/'
+LOGIN_REDIRECT_URL = '/registros/dashboard/'
+
+
 # Application definition
 
 INSTALLED_APPS = [

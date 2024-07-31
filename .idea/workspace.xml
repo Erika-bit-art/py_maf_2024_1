@@ -4,41 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6277c94c-1e8d-4455-be12-55b129b50610" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Trabalho_Final.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Trabalho_Final/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Trabalho_Final/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Trabalho_Final/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Trabalho_Final/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Trabalho_Final/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/registros/editar_registro.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/registros/excluir_registro.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/usuarios/activation_email.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/usuarios/adicionar_usuario.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/usuarios/cadastro.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/usuarios/change_password.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/templates/usuarios/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registros/views.py" afterDir="false" />
+    <list default="true" id="6277c94c-1e8d-4455-be12-55b129b50610" name="Changes" comment="WIP: TRABALHO FINAL SENAC">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Trabalho_Final/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Trabalho_Final/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Trabalho_Final/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Trabalho_Final/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/adicionar_usuario.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +34,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Erika-bit-art&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Erika-bit-art/py_maf_2024_1.git&quot;,
+    &quot;accountId&quot;: &quot;29c7b85a-2625-4042-8b8c-ade381ef7935&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -72,30 +62,24 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Shell Script.Django Server.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
 }</component>
   <component name="RunManager">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="Trabalho_Final" />
-      <option name="ENV_FILES" value="" />
+    <configuration name="Django Server" type="ShConfigurationType">
+      <option name="SCRIPT_TEXT" value="python manage.py runserver" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="powershell.exe" />
       <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="false" />
+      <envs />
       <method v="2" />
     </configuration>
   </component>
@@ -115,10 +99,21 @@
       <option name="presentableId" value="Default" />
       <updated>1722379593521</updated>
     </task>
+    <task id="LOCAL-00001" summary="WIP: TRABALHO FINAL SENAC">
+      <option name="closed" value="true" />
+      <created>1722464503748</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722464503749</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="WIP: TRABALHO FINAL SENAC" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP: TRABALHO FINAL SENAC" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

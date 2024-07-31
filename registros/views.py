@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from .models import Registro
 from registros.forms import RegistroForm, UsuarioForm, LoginForm, Usuario, Registro
 
 from django.db.models import Count, Q
@@ -87,11 +88,11 @@ def dashboard(request):
                 'ultimos_usuarios': ultimos_usuarios
             }
         else:
-            registro = Registro.objects.filter(usuario=usuario)
+            registros = Registro.objects.filter(usuario=usuario)
 
             context = {
                 'usuario': usuario,
-                'registro': registro,
+                'registros': registros,
             }
         return render(request, 'registros/dashboard.html', context)
     else:
@@ -107,7 +108,7 @@ def adicionar_registro(request):
                 registro = form.save(commit=False)
                 registro.usuario_id = request.session.get('usuario_id')
                 registro.save()
-                messages.success(request, f'Registro \'{Registro.nome}\' adicionado com sucesso!')
+                messages.success(request, f'Registro \'{registro.atleta}\' adicionado com sucesso!')
                 return redirect('dashboard')
             else:
                 return render(request, 'registros/adicionar_registro.html', {'form': form})

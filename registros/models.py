@@ -66,7 +66,6 @@ class Usuario(AbstractBaseUser):
 
 class Registro(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='registros')
-    nome = 'registro'
     atleta = models.CharField(max_length=100)
     modalidade = models.CharField(max_length=100, default='')
     pais = models.CharField(max_length=500, default='')
@@ -80,7 +79,8 @@ class Registro(models.Model):
     class Meta:
         db_table = 'registro'
         verbose_name = 'registro'
-        ordering = ['nome']
+        ordering = ['atleta']
 
     def __str__(self):
-        return self.nome
+        return self.atleta
+
