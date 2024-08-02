@@ -211,7 +211,7 @@ def editar_registro(request, registro_id):
                 registro.foto_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
             registro.save()
-            messages.success(request, f'Registro\'{registro.nome}\' atualizado com sucesso!')
+            messages.success(request, f'Registro\'{registro.atleta}\' atualizado com sucesso!')
             return redirect('dashboard')
     else:
         form = RegistroForm(instance=registro)

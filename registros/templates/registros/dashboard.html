@@ -9,9 +9,9 @@
         {% if usuario.is_admin %}
             <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
         {% else %}
-            <a href="{% url 'adicionar_registro' %}" class="btn btn-primary btn-sm mr-2">Adicionar Registro Olímpico</a>
+            <a href="{% url 'adicionar_registro' %}" class="btn btn-success btn-sm mr-2" style="background-color: #05b308; border-color: #05b308; color: #fff;">Adicionar Registro Olímpico</a>
         {% endif %}
-        <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
+        <a href="{% url 'logout' %}" class="btn btn-primary btn-sm">Logout</a>
     </div>
 </div>
 
@@ -65,7 +65,34 @@
                     <div class="card-body">
                         <h5 class="card-title"><b>Nome:</b> {{ registro.atleta }}</h5>
                         <p class="card-text"><br><b>Atleta:</b> {{ registro.atleta }}<br><b>Modalidade:</b> {{ registro.modalidade }}<br><b>País:</b> {{ registro.pais }}<br><b>Medalha:</b> {{ registro.medalha }}<br><b>Ano:</b> {{ registro.ano }}<br><b>Local sede:</b> {{ registro.local_sede }}<br><b>Para acessar o momento olímpico clique em 'informações' :)</b></p>
-                        <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ registro.id }}">Informações</button>
+                        <button type="button" class="btn btn-sm" style="background-color: #e3ed24; color: #000; border-color: #e3ed24;" data-bs-toggle="modal" data-bs-target="#modal{{ registro.id }}">Informações</button>
+                         <!-- Botões de Editar e Excluir -->
+                        <a href="{% url 'editar_registro' registro.id %}" class="btn btn-primary btn-sm">Editar</a>
+                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalExcluir{{ registro.id }}">Excluir</button>
+                    </div>
+                </div>
+
+                <!-- Modal para Confirmação de Exclusão -->
+                <div class="modal fade" id="modalExcluir{{ registro.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabelExcluir{{ registro.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabelExcluir{{ registro.id }}">Confirmar Exclusão</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Tem certeza que deseja excluir o registro olímpico "{{registro.atleta}}"?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'excluir_registro' registro.id %}">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Excluir</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -74,7 +101,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="modalLabel{{ registro.id }}">Informações de {{ registro.atleta }}</h5>
+                                <h5 class="modal-title" id="modalLabel{{ registro.id }}">Informações de {{registro.atleta}}</h5>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -89,7 +116,7 @@
                                 <p><strong> Momento: </strong> {{ registro.momento }}</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
                             </div>
                         </div>
                     </div>
