@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
+    <div class="mb-3">
+        {% if usuario.is_admin %}
+            <a href="{% url 'listar_usuarios' %}" class="btn btn-secondary btn-sm mr-2">Listar Usuários</a>
+        {% else %}
+            <a href="{% url 'adicionar_registro' %}" class="btn btn-success btn-sm mr-2" style="background-color: #05b308; border-color: #05b308; color: #fff;">Adicionar Registro Olímpico</a>
+        {% endif %}
+        <a href="{% url 'logout' %}" class="btn btn-primary btn-sm">Logout</a>
+    </div>
+</div>
+
+{% if usuario.is_admin %}
+    <h2>Dashboard Administrativa</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Usuários</h5>
+                    <p class="card-text">{{ total_usuarios }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Usuários Ativos</h5>
+                    <p class="card-text">{{ usuarios_ativos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Usuários Inativos</h5>
+                    <p class="card-text">{{ usuarios_inativos }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4 offset-4" style="width: 18rem;">
+        <div class="card-header text-white bg-primary">
+            Últimos 5 Usuários Adicionados
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for usuario in ultimos_usuarios %}
+            <li class="list-group-item">
+                <strong>{{ usuario.nome }}</strong> - {{ usuario.email }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <h2>Registros Olímpicos</h2>
+    <div class="row">
+        {% for registro in registros %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="https://robohash.org/{{ registro.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ registro.atleta }}">
+                    <div class="card-body">
+                        <h5 class="card-title"><b>Nome:</b> {{ registro.atleta }}</h5>
+                        <p class="card-text"><br><b>Atleta:</b> {{ registro.atleta }}<br><b>Modalidade:</b> {{ registro.modalidade }}<br><b>País:</b> {{ registro.pais }}<br><b>Medalha:</b> {{ registro.medalha }}<br><b>Ano:</b> {{ registro.ano }}<br><b>Local sede:</b> {{ registro.local_sede }}<br><b>Para acessar o momento olímpico clique em 'informações' :)</b></p>
+                        <button type="button" class="btn btn-sm" style="background-color: #e3ed24; color: #000; border-color: #e3ed24;" data-bs-toggle="modal" data-bs-target="#modal{{ registro.id }}">Informações</button>
+                         <!-- Botões de Editar e Excluir -->
+                        <a href="{% url 'editar_registro' registro.id %}" class="btn btn-primary btn-sm">Editar</a>
+                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalExcluir{{ registro.id }}">Excluir</button>
+                    </div>
+                </div>
+
+                <!-- Modal para Confirmação de Exclusão -->
+                <div class="modal fade" id="modalExcluir{{ registro.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabelExcluir{{ registro.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabelExcluir{{ registro.id }}">Confirmar Exclusão</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Tem certeza que deseja excluir o registro olímpico "{{registro.atleta}}"?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'excluir_registro' registro.id %}">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Excluir</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para Informações do Registro -->
+                <div class="modal fade" id="modal{{ registro.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ registro.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel{{ registro.id }}">Informações de {{registro.atleta}}</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Atleta ou Grupo: </strong>{{ registro.atleta }}</p>
+                                <p><strong>Modalidade: </strong>{{ registro.modalidade }}</p>
+                                <p><strong>País: </strong>{{ registro.pais }}</p>
+                                <p><strong>Medalha: </strong>{{ registro.medalha }}</p>
+                                <p><strong>Ano: </strong>{{ registro.ano }}</p>
+                                <p><strong>Local Sede: </strong>{{ registro.local_sede }}</p>
+                                <p><strong> Momento: </strong> {{ registro.momento }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

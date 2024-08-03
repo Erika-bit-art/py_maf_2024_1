@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Registro Olímpico{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h1 class="display-4">Excluir registro</h1>
+    <p>Tem certeza de que deseja excluir o produto {{registro.atleta}}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mt-3 button-group">
+            <button type="submit" class="btn btn-success btn-sm">Excluir</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-light btn-sm">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
