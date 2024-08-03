@@ -38,7 +38,7 @@ class Usuario(AbstractBaseUser):
     idade = models.IntegerField()
     email = models.EmailField(unique=True)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

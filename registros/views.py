@@ -43,6 +43,7 @@ def cadastro(request):
         return render(request, 'usuarios/cadastro.html', {'form': form})
 
 
+
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -193,6 +194,15 @@ def reativar_usuario(request, usuario_id):
     except Usuario.DoesNotExist:
         messages.error(request, 'Usuário(a) não encontrado')
         return redirect('listar_usuarios')
+
+def excluir_usuario(request, usuario_id):
+    try:
+        usuario = get_object_or_404(Usuario, id=usuario_id)
+        usuario.delete()
+        messages.success(request, f'Usuário \'{usuario.nome}\' excluído com sucesso.')
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuário não encontrado.')
+    return redirect('listar_usuarios')
 
 
 

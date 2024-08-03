@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6277c94c-1e8d-4455-be12-55b129b50610" name="Changes" comment="WIP: TRABALHO FINAL SENAC">
+      <change afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registros/migrations/0002_alter_usuario_is_active.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/registros/editar_registro.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/editar_registro.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/registros/excluir_registro.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/excluir_registro.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/cadastro.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/cadastro.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/views.py" afterDir="false" />
     </list>
@@ -113,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722470019244</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="WIP: TRABALHO FINAL SENAC">
+      <option name="closed" value="true" />
+      <created>1722640826786</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722640826786</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

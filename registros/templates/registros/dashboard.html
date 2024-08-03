@@ -7,7 +7,7 @@
     <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
     <div class="mb-3">
         {% if usuario.is_admin %}
-            <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
+            <a href="{% url 'listar_usuarios' %}" class="btn btn-secondary btn-sm mr-2">Listar Usuários</a>
         {% else %}
             <a href="{% url 'adicionar_registro' %}" class="btn btn-success btn-sm mr-2" style="background-color: #05b308; border-color: #05b308; color: #fff;">Adicionar Registro Olímpico</a>
         {% endif %}
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card text-white bg-danger mb-4">
+            <div class="card text-white bg-dark mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Usuários Inativos</h5>
                     <p class="card-text">{{ usuarios_inativos }}</p>
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="card mb-4 offset-4" style="width: 18rem;">
-        <div class="card-header text-white bg-info">
+        <div class="card-header text-white bg-primary">
             Últimos 5 Usuários Adicionados
         </div>
         <ul class="list-group list-group-flush">

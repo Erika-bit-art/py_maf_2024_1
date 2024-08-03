@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Central de Gerenciamento de Usuários{% endblock %}
+{% block title %}Administração de Usuários{% endblock %}
 
 {% block content %}
 <div class="mt-5">
@@ -9,7 +9,7 @@
         <a href="{% url 'dashboard' %}" class="btn btn-primary mr-2">Dashboard</a>
         <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
     </div>
-    <form class="mb-3" method="get">
+    <form class="mb-3">
         <input type="text" name="q" placeholder="Buscar por nome ou email" class="form-control mb-2">
         <input type="number" name="idade" min="0" max="200" placeholder="Buscar por idade aproximada" class="form-control mb-2">
         <select name="status" class="form-control mb-2">
@@ -25,8 +25,8 @@
     <li class="list-group-item">
         <div>
             <h5 class="mb-1">{{ usuario.nome }}</h5>
-            {% if usuario.registros_count %}
-            <p class="mb-0"><strong>Registros:</strong> {{ usuario.registros_count }}</p>
+            {% if usuario.contatos_count %}
+            <p class="mb-0"><strong>Registros:</strong> {{ usuario.contatos_count }}</p>
             {% else %}
             <p class="mb-0">Nenhum registro olímpico cadastrado.</p>
             {% endif %}
@@ -37,7 +37,7 @@
             {% else %}
                 <a href="{% url 'reativar_usuario' usuario.id %}" class="btn btn-success btn-sm mr-2">Reativar</a>
             {% endif %}
-            <a href="{% url 'excluir_usuario' usuario.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                <a href="{% url 'excluir_usuario' usuario.id %}" class="btn btn-danger btn-sm">Excluir</a>
         </div>
     </li>
     {% endfor %}
