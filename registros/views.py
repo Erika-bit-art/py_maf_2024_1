@@ -53,7 +53,6 @@ def listar_usuarios(request):
     return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
 
 
-@user_passes_test(is_admin)
 def desativar_usuario(request, usuario_id):
     try:
         usuario_a_desativar = get_object_or_404(Usuario, id=usuario_id)
@@ -66,7 +65,6 @@ def desativar_usuario(request, usuario_id):
         return redirect('listar_usuarios')
 
 
-@user_passes_test(is_admin)
 def reativar_usuario(request, usuario_id):
     try:
         usuario_a_reativar = get_object_or_404(Usuario, id=usuario_id)
@@ -166,9 +164,6 @@ def logout(request):
     request.session.flush()
     response = redirect('login')
     return response
-
-
-
 
 
 def adicionar_registro(request):
