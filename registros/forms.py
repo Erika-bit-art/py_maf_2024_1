@@ -2,12 +2,14 @@ import hashlib
 from django import forms
 from registros.models import Usuario, Registro
 
+
 class BootstrapModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
+
 
 class UsuarioForm(BootstrapModelForm):
     class Meta:
@@ -17,10 +19,17 @@ class UsuarioForm(BootstrapModelForm):
             'password': forms.PasswordInput(),
         }
 
+
 class RegistroForm(BootstrapModelForm):
+    foto = forms.ImageField(required=False, widget=forms.FileInput(attrs={
+        'class': 'form-control',
+        'accept': 'image/*',
+    }))
+
     class Meta:
         model = Registro
-        fields = ['atleta', 'modalidade', 'pais', 'medalha', 'ano', 'local_sede', 'momento']
+        fields = ['atleta', 'modalidade', 'pais', 'medalha', 'ano', 'local_sede', 'momento','foto']
+
 
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={

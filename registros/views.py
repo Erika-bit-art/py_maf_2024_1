@@ -1,8 +1,6 @@
-import base64
 import hashlib
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-import io
 from tkinter import Image
 
 from django.contrib.sites.shortcuts import get_current_site
@@ -23,7 +21,9 @@ from django.contrib.auth import authenticate, login as auth_login
 
 from django.contrib import messages
 
-
+from PIL import Image
+import io
+import base64
 
 
 def cadastro(request):
@@ -41,7 +41,6 @@ def cadastro(request):
     else:
         form = UsuarioForm()
         return render(request, 'usuarios/cadastro.html', {'form': form})
-
 
 
 def login(request):
@@ -104,10 +103,18 @@ def adicionar_registro(request):
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
         if request.method == 'POST':
-            form = RegistroForm(request.POST)
+            form = RegistroForm(request.POST, request.FILES)
             if form.is_valid():
                 registro = form.save(commit=False)
                 registro.usuario_id = request.session.get('usuario_id')
+
+                if 'foto' in request.FILES:
+                    imagem = Image.open(request.FILES['foto'])
+                    imagem = imagem.resize((300, 300), Image.LANCZOS)
+                    buffered = io.BytesIO()
+                    imagem.save(buffered, format="PNG")
+                    registro.foto_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
+
                 registro.save()
                 messages.success(request, f'Registro \'{registro.atleta}\' adicionado com sucesso!')
                 return redirect('dashboard')
@@ -195,6 +202,7 @@ def reativar_usuario(request, usuario_id):
         messages.error(request, 'Usuário(a) não encontrado')
         return redirect('listar_usuarios')
 
+
 def excluir_usuario(request, usuario_id):
     try:
         usuario = get_object_or_404(Usuario, id=usuario_id)
@@ -203,7 +211,6 @@ def excluir_usuario(request, usuario_id):
     except Usuario.DoesNotExist:
         messages.error(request, 'Usuário não encontrado.')
     return redirect('listar_usuarios')
-
 
 
 def editar_registro(request, registro_id):
@@ -226,7 +233,6 @@ def editar_registro(request, registro_id):
     else:
         form = RegistroForm(instance=registro)
     return render(request, 'registros/editar_registro.html', {'form': form, 'registro': registro})
-
 
 
 def excluir_registro(request, registro_id):

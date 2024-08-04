@@ -1,5 +1,8 @@
-from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
+import base64
+import os
+
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nome, idade, password=None, is_admin=False, is_active=False):
@@ -33,6 +36,7 @@ class UsuarioManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class Usuario(AbstractBaseUser):
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
@@ -64,6 +68,7 @@ class Usuario(AbstractBaseUser):
     def is_authenticated(self):
         return True
 
+
 class Registro(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='registros')
     atleta = models.CharField(max_length=100)
@@ -73,6 +78,7 @@ class Registro(models.Model):
     ano = models.CharField(max_length=100)
     local_sede = models.CharField(max_length=15, default='')
     momento = models.CharField(max_length=800)
+    foto_base64 = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -80,6 +86,11 @@ class Registro(models.Model):
         db_table = 'registro'
         verbose_name = 'registro'
         ordering = ['atleta']
+
+    def save(self, *args, **kwargs):
+        if self.foto_base64:
+            self.foto_base64 = base64.b64encode(self.foto_base64.encode()).decode('utf-8')
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.atleta

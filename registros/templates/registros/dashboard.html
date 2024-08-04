@@ -61,7 +61,11 @@
         {% for registro in registros %}
             <div class="col-md-4">
                 <div class="card mb-4">
-                    <img src="https://robohash.org/{{ registro.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ registro.atleta }}">
+                    {% if registro.foto_base64 %}
+                        <img src="data:image/png;base64,{{ registro.foto_base64 }}" class="card-img-top" alt="foto de {{ registro.atleta }}">
+                    {% else %}
+                        <img src="https://robohash.org/{{ registro.id }}?gravatar=yes" class="card-img-top" alt="foto de {{ registro.atleta }}">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title"><b>Nome:</b> {{ registro.atleta }}</h5>
                         <p class="card-text"><br><b>Atleta:</b> {{ registro.atleta }}<br><b>Modalidade:</b> {{ registro.modalidade }}<br><b>País:</b> {{ registro.pais }}<br><b>Medalha:</b> {{ registro.medalha }}<br><b>Ano:</b> {{ registro.ano }}<br><b>Local sede:</b> {{ registro.local_sede }}<br><b>Para acessar o momento olímpico clique em 'informações' :)</b></p>
