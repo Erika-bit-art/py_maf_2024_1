@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fabc44cb-d373-4134-8558-85a591ffcb7a" name="Changes" comment="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
+      <change afterPath="$PROJECT_DIR$/registros/migrations/0004_registro_foto_base64.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Trabalho__Final/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Trabalho__Final/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Trabalho__Final/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Trabalho__Final/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/adicionar_registro.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registros/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/registros/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722734934402</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
+      <option name="closed" value="true" />
+      <created>1722739978427</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722739978427</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

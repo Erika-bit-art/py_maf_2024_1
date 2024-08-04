@@ -1,6 +1,7 @@
-import hashlib
 from django import forms
+from django.contrib.auth import authenticate
 from registros.models import Usuario, Registro
+import hashlib
 
 
 class BootstrapModelForm(forms.ModelForm):
@@ -17,18 +18,29 @@ class UsuarioForm(BootstrapModelForm):
         fields = ['nome', 'idade', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput(),
+
         }
+
+    def save(self, commit=True):
+        usuario = super().save(commit=False)
+        usuario.set_password(self.cleaned_data['password'])
+        if commit:
+            usuario.save()
+        return usuario
 
 
 class RegistroForm(BootstrapModelForm):
-    foto = forms.ImageField(required=False, widget=forms.FileInput(attrs={
-        'class': 'form-control',
-        'accept': 'image/*',
-    }))
+    foto = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'form-control',
+            'accept': 'image/*',
+        })
+    )
 
     class Meta:
         model = Registro
-        fields = ['atleta', 'modalidade', 'pais', 'medalha', 'ano', 'local_sede', 'momento','foto']
+        fields = ['atleta', 'modalidade', 'pais', 'medalha', 'ano', 'local_sede', 'momento', 'foto']
 
 
 class LoginForm(forms.Form):

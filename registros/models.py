@@ -1,7 +1,6 @@
-from django.db import models
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
+from django.db import models
 import base64
-import os
 
 
 class UsuarioManager(BaseUserManager):
@@ -60,6 +59,9 @@ class Usuario(AbstractBaseUser):
     def __str__(self):
         return self.nome
 
+    def get_by_natural_key(self, email):
+        return self.get(email=email)
+
     @property
     def is_anonymous(self):
         return False
@@ -86,11 +88,6 @@ class Registro(models.Model):
         db_table = 'registro'
         verbose_name = 'registro'
         ordering = ['atleta']
-
-    def save(self, *args, **kwargs):
-        if self.foto_base64:
-            self.foto_base64 = base64.b64encode(self.foto_base64.encode()).decode('utf-8')
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.atleta

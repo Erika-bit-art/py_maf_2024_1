@@ -1,29 +1,91 @@
-import hashlib
+import base64
+import io
+from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
-
-from tkinter import Image
-
-from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect, get_object_or_404
+
+from .models import Usuario, Registro
+from .forms import UsuarioForm, RegistroForm, LoginForm
+from django.db.models import Count, Q
+from django.utils.encoding import force_str
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import logout as auth_logout
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from .models import Registro
-from registros.forms import RegistroForm, UsuarioForm, LoginForm, Usuario, Registro
+import hashlib
 
-from django.db.models import Count, Q
 
-from django.contrib.auth.decorators import user_passes_test, login_required
+def is_admin(user):
+    return user.is_authenticated and user.is_admin
 
-from django.contrib.auth import authenticate, login as auth_login
 
-from django.contrib import messages
+def listar_usuarios(request):
+    query = request.GET.get('q')
+    status = request.GET.get('status')
+    idade = request.GET.get('idade')
+    usuarios = Usuario.objects.all()
 
-from PIL import Image
-import io
-import base64
+    if query:
+        usuarios = usuarios.filter(Q(nome__icontains=query) | Q(email__icontains=query))
+
+    if status:
+        is_active = True if status == 'ativo' else False
+        usuarios = usuarios.filter(is_active=is_active)
+
+    if idade:
+        try:
+            idade = int(idade)
+            faixa_min = idade - 3
+            faixa_max = idade + 3
+            usuarios = usuarios.filter(idade__range=(faixa_min, faixa_max))
+
+        except ValueError:
+            pass
+
+    usuarios = usuarios.filter(is_admin=False).annotate(registros_count=Count('registros'))
+    return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
+
+
+@user_passes_test(is_admin)
+def desativar_usuario(request, usuario_id):
+    try:
+        usuario_a_desativar = get_object_or_404(Usuario, id=usuario_id)
+        usuario_a_desativar.is_active = False
+        usuario_a_desativar.save()
+        messages.success(request, f'Usuário(a) {usuario_a_desativar.nome} desativado com sucesso!')
+        return redirect('listar_usuarios')
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuário(a) não encontrado')
+        return redirect('listar_usuarios')
+
+
+@user_passes_test(is_admin)
+def reativar_usuario(request, usuario_id):
+    try:
+        usuario_a_reativar = get_object_or_404(Usuario, id=usuario_id)
+        usuario_a_reativar.is_active = True
+        usuario_a_reativar.save()
+        messages.success(request, f'Usuário(a) {usuario_a_reativar.nome} reativado com sucesso!')
+        return redirect('listar_usuarios')
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuário(a) não encontrado')
+        return redirect('listar_usuarios')
+
+
+def excluir_usuario(request, usuario_id):
+    try:
+        usuario = get_object_or_404(Usuario, id=usuario_id)
+        usuario.delete()
+        messages.success(request, f'Usuário \'{usuario.nome}\' excluído com sucesso.')
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuário não encontrado.')
+    return redirect('listar_usuarios')
 
 
 def cadastro(request):
@@ -99,6 +161,12 @@ def dashboard(request):
         return redirect('login')
 
 
+def logout(request):
+    request.session.flush()
+    response = redirect('login')
+    return response
+
+
 def adicionar_registro(request):
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
@@ -125,92 +193,6 @@ def adicionar_registro(request):
         return render(request, 'registros/adicionar_registro.html', {'form': form})
     else:
         return redirect('login')
-
-
-def logout(request):
-    request.session.flush()
-    response = redirect('login')
-    return response
-
-
-# VIEWS DE ADMIN
-
-def is_admin(user):
-    return user.is_authenticated and user.is_admin
-
-
-from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.db.models import Count
-from .models import Usuario
-
-
-def is_admin(user):
-    return user.is_authenticated and user.is_admin
-
-
-def listar_usuarios(request):
-    query = request.GET.get('q')
-    status = request.GET.get('status')
-    idade = request.GET.get('idade')
-    usuarios = Usuario.objects.all()
-
-    if query:
-        usuarios = usuarios.filter(Q(nome__icontains=query) | Q(email__icontains=query))
-
-    if status:
-        is_active = True if status == 'ativo' else False
-        usuarios = usuarios.filter(is_active=is_active)
-
-    if idade:
-        try:
-            idade = int(idade)
-            faixa_min = idade - 3
-            faixa_max = idade + 3
-            usuarios = usuarios.filter(idade__range=(faixa_min, faixa_max))
-
-        except ValueError:
-            pass
-
-    usuarios = usuarios.filter(is_admin=False).annotate(registros_count=Count('registros'))
-    return render(request, 'usuarios/listar_usuarios.html', {'usuarios': usuarios})
-
-
-@user_passes_test(is_admin)
-def desativar_usuario(request, usuario_id):
-    try:
-        usuario_a_desativar = get_object_or_404(Usuario, id=usuario_id)
-        usuario_a_desativar.is_active = False
-        usuario_a_desativar.save()
-        messages.success(request, f'Usuário(a) {usuario_a_desativar.nome} desativado com sucesso!')
-        return redirect('listar_usuarios')
-    except Usuario.DoesNotExist:
-        messages.error(request, 'Usuário(a) não encontrado')
-        return redirect('listar_usuarios')
-
-
-@user_passes_test(is_admin)
-def reativar_usuario(request, usuario_id):
-    try:
-        usuario_a_reativar = get_object_or_404(Usuario, id=usuario_id)
-        usuario_a_reativar.is_active = True
-        usuario_a_reativar.save()
-        messages.success(request, f'Usuário(a) {usuario_a_reativar.nome} reativado com sucesso!')
-        return redirect('listar_usuarios')
-    except Usuario.DoesNotExist:
-        messages.error(request, 'Usuário(a) não encontrado')
-        return redirect('listar_usuarios')
-
-
-def excluir_usuario(request, usuario_id):
-    try:
-        usuario = get_object_or_404(Usuario, id=usuario_id)
-        usuario.delete()
-        messages.success(request, f'Usuário \'{usuario.nome}\' excluído com sucesso.')
-    except Usuario.DoesNotExist:
-        messages.error(request, 'Usuário não encontrado.')
-    return redirect('listar_usuarios')
 
 
 def editar_registro(request, registro_id):
