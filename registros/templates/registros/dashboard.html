@@ -3,17 +3,17 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="mt-5">
-    <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
-    <div class="mb-3">
-        {% if usuario.is_admin %}
-            <a href="{% url 'listar_usuarios' %}" class="btn btn-secondary btn-sm mr-2">Listar Usuários</a>
-        {% else %}
-            <a href="{% url 'adicionar_registro' %}" class="btn btn-success btn-sm mr-2" style="background-color: #05b308; border-color: #05b308; color: #fff;">Adicionar Registro Olímpico</a>
-        {% endif %}
-        <a href="{% url 'logout' %}" class="btn btn-primary btn-sm">Logout</a>
+    <div class="mt-5">
+        <h1 class="display-4">Bem-vindo(a),{{ usuario.nome }}</h1>
+        <div class="mb-3">
+            {% if usuario.is_admin %}
+                <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
+            {% else %}
+                <a href="{% url 'adicionar_registro' %}" class="btn btn-primary btn-sm mr-2">Adicionar Registro Olímpico</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
+        </div>
     </div>
-</div>
 
 {% if usuario.is_admin %}
     <h2>Dashboard Administrativa</h2>

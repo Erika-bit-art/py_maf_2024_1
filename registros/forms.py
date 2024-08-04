@@ -66,3 +66,4 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError('Email não encontrado :(')
 
         return cleaned_data
+

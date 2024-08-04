@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Usuario, Registro
 from .forms import UsuarioForm, RegistroForm, LoginForm
+
 from django.db.models import Count, Q
 from django.utils.encoding import force_str
 from django.contrib import messages
@@ -165,6 +166,9 @@ def logout(request):
     request.session.flush()
     response = redirect('login')
     return response
+
+
+
 
 
 def adicionar_registro(request):
