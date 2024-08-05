@@ -10,6 +10,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('cadastro/', views.cadastro, name='cadastro'),
+    path('change_password/', views.change_password, name='change_password'),
 
     path('admin/biblioteca/', include([
         path('listar_usuarios/', views.listar_usuarios, name='listar_usuarios'),

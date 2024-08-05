@@ -6,7 +6,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Usuario, Registro
-from .forms import UsuarioForm, RegistroForm, LoginForm
+from .forms import UsuarioForm, RegistroForm, LoginForm, PasswordChangeForm
 
 from django.db.models import Count, Q
 from django.utils.encoding import force_str
@@ -113,7 +113,7 @@ def login(request):
             hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
             try:
-                usuario = Usuario.objects.get(email=email, password=hashed_password)
+                usuario = Usuario.objects.only('id', 'is_active').get(email=email, password=hashed_password)
 
                 if usuario is not None:
                     if usuario.is_active:
@@ -165,6 +165,29 @@ def logout(request):
     response = redirect('login')
     return response
 
+
+def change_password(request):
+    usuario_id = request.session.get('usuario_id')
+    if usuario_id:
+        usuario = Usuario.objects.only('email').get(id=usuario_id)
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.POST)
+            if form.is_valid():
+                old_password = form.cleaned_data['old_password']
+                new_password = form.cleaned_data['new_password']
+
+                if Usuario.objects.get(email=usuario.email, password=hashlib.sha256(old_password.encode('utf-8')).hexdigest()):
+                    usuario.password = hashlib.sha256(new_password.encode('utf8')).hexdigest()
+                    usuario.save()
+                    messages.success(request, 'Senha alterada com sucesso!')
+                    return redirect('dashboard')
+                else:
+                    form.add_error('old_password', 'Senha antiga inválida.')
+        else:
+            form = PasswordChangeForm()
+        return render(request, 'usuarios/change_password.html', {'form': form})
+    else:
+        return redirect('login')
 
 def adicionar_registro(request):
     usuario_id = request.session.get('usuario_id')
