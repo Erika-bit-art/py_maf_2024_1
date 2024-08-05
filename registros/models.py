@@ -41,7 +41,7 @@ class Usuario(AbstractBaseUser):
     idade = models.IntegerField()
     email = models.EmailField(unique=True)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -59,8 +59,6 @@ class Usuario(AbstractBaseUser):
     def __str__(self):
         return self.nome
 
-    def get_by_natural_key(self, email):
-        return self.get(email=email)
 
     @property
     def is_anonymous(self):

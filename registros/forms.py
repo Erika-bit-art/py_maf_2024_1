@@ -1,7 +1,6 @@
-from django import forms
-from django.contrib.auth import authenticate
-from registros.models import Usuario, Registro
 import hashlib
+from django import forms
+from registros.models import Usuario, Registro
 
 
 class BootstrapModelForm(forms.ModelForm):
@@ -21,12 +20,7 @@ class UsuarioForm(BootstrapModelForm):
 
         }
 
-    def save(self, commit=True):
-        usuario = super().save(commit=False)
-        usuario.set_password(self.cleaned_data['password'])
-        if commit:
-            usuario.save()
-        return usuario
+
 
 
 class RegistroForm(BootstrapModelForm):
