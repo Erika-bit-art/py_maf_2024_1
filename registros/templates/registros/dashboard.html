@@ -9,7 +9,7 @@
             {% if usuario.is_admin %}
                 <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
             {% else %}
-                <a href="{% url 'adicionar_registro' %}" class="btn btn-primary btn-sm mr-2">Adicionar Registro Olímpico</a>
+                <a href="{% url 'adicionar_registro' %}" class="btn btn-primary btn-sm mr-2" >Adicionar Registro Olímpico</a>
             {% endif %}
             <a href="{% url 'change_password' %}" class="btn btn-success btn-sm">Alterar Senha</a>
             <a href="{% url 'logout' %}" class="btn btn-dark btn-sm">Logout</a>
@@ -61,7 +61,7 @@
     <div class="row">
         {% for registro in registros %}
             <div class="col-md-4">
-                <div class="card mb-4">
+                <div class="card mb-4" >
                     {% if registro.foto_base64 %}
                         <img src="data:image/png;base64,{{ registro.foto_base64 }}" class="card-img-top" alt="foto de {{ registro.atleta }}">
                     {% else %}
