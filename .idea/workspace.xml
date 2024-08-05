@@ -160,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722805365634</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
+      <option name="closed" value="true" />
+      <created>1722825450450</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1722825450450</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
