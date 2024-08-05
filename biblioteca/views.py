@@ -161,7 +161,6 @@ def listar_usuarios(request):
     usuarios = usuarios.filter(is_admin=False).annotate(contatos_count=Count('livros'))
     return render(request, 'biblioteca/listar_usuarios.html', {'usuarios': usuarios})
 
-@user_passes_test(is_admin)
 def desativar_usuario(request, usuario_id):
     try:
         usuario_a_desativar = get_object_or_404(Usuario, id=usuario_id)
@@ -173,7 +172,6 @@ def desativar_usuario(request, usuario_id):
         messages.error(request, 'Usuário não encontrado')
         return redirect('listar_usuarios')
 
-@user_passes_test(is_admin)
 def reativar_usuario(request, usuario_id):
     try:
         usuario_a_reativar = get_object_or_404(Usuario, id=usuario_id)
@@ -185,7 +183,6 @@ def reativar_usuario(request, usuario_id):
         messages.error(request, 'Usuário não encontrado')
         return redirect('listar_usuarios')
 
-@user_passes_test(is_admin)
 def excluir_usuario(request, usuario_id):
     try:
         usuario_a_ser_excluido = get_object_or_404(Usuario, id=usuario_id)

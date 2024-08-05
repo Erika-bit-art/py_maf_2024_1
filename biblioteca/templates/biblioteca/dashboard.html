@@ -3,7 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <div class="mt-5">
+<div class="mt-5">
         <h1 class="display-4">Bem-vindo, {{ usuario.nome }}</h1>
         <div class="mb-3">
             {% if usuario.is_admin %}
@@ -13,9 +13,9 @@
             {% endif %}
             <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
         </div>
-    </div>
+</div>
 
-    {% if usuario.is_admin %}
+{% if usuario.is_admin %}
     <h2>Dashboard Administrativa</h2>
     <div class="row">
         <div class="col-md-4">
@@ -55,13 +55,10 @@
             {% endfor %}
         </ul>
     </div>
-    {% else %}
+{% else %}
     <h2>Meus Livros</h2>
     <div class="row">
-        <form class="mb-3">
-            <input type="text" name="q" placeholder="Buscar por nome, email, bairro, cidade ou estado" class="form-control mb-2">
-            <button type="submit" class="btn btn-dark">Buscar</button>
-        </form>
+
         {% for livro in livros %}
             <div class="col-md-4">
                 <div class="card mb-4">
