@@ -3,7 +3,14 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h1>Login</h1>
+
+<h1 style="text-align: center; font-size: 36px; font-family: 'Open Sans', san-serif;"> Bem vindo(a), Visitante! </h1>
+
+<h2 style="text-align: center; font-size: 20px; font-family: Roboto, sans-serif;">Faça login na sua conta para começar a usar o sistema.</h2>
+<h2 style="text-align: center; font-size: 20px; font-family: Roboto, sans-serif;">Caso não tenha conta, clique em 'cadastrar'    :)  </h2>
+
+
+<h1 style="font-size: 24px;">Login</h1>
     <form method="post">
         {% csrf_token %}
         {% for field in form %}

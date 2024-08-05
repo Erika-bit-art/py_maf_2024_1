@@ -4,15 +4,15 @@
 
 {% block content %}
     <div class="mt-5">
-        <h1 class="display-4">Bem-vindo(a), {{ usuario.nome }}</h1>
+        <h1 style="font-size: 50px; font-family: 'Open Sans', san-serif;" class="display-4">Bem-vindo(a), {{ usuario.nome }}</h1>
         <div class="mb-3">
             {% if usuario.is_admin %}
                 <a href="{% url 'listar_usuarios' %}" class="btn btn-primary btn-sm mr-2">Listar Usuários</a>
             {% else %}
                 <a href="{% url 'adicionar_registro' %}" class="btn btn-primary btn-sm mr-2">Adicionar Registro Olímpico</a>
             {% endif %}
-            <a href="{% url 'change_password' %}" class="btn btn-secondary btn-sm">Alterar Senha</a>
-            <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
+            <a href="{% url 'change_password' %}" class="btn btn-success btn-sm">Alterar Senha</a>
+            <a href="{% url 'logout' %}" class="btn btn-dark btn-sm">Logout</a>
         </div>
     </div>
 
@@ -93,7 +93,7 @@
                             <div class="modal-footer">
                                 <form method="post" action="{% url 'excluir_registro' registro.id %}">
                                     {% csrf_token %}
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
                                     <button type="submit" class="btn btn-success">Excluir</button>
                                 </form>
                             </div>
