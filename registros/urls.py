@@ -10,8 +10,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('cadastro/', views.cadastro, name='cadastro'),
-    path('change_password/', views.change_password, name='change_password'),
-
+    path('activate/<uidb64>/<token>', views.activate, name='activate'),
+    path('resend_activation_email/<int:usuario_id>/', views.resend_activation_email, name='resend_activation_email'),
     path('admin/biblioteca/', include([
         path('listar_usuarios/', views.listar_usuarios, name='listar_usuarios'),
         path('usuarios/desativar/<int:usuario_id>/', views.desativar_usuario, name='desativar_usuario'),
@@ -20,4 +20,6 @@ urlpatterns = [
     ])),
 
     path('', views.dashboard, name='dashboard'),
+    path('change_password/', views.change_password, name='change_password'),
+
 ]

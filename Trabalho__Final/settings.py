@@ -37,6 +37,18 @@ LOGIN_URL = '/registros/login/'
 LOGIN_REDIRECT_URL = '/registros/dashboard/'
 
 
+# Email definitions
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'erika.fernandes1409@gmail.com'
+EMAIL_HOST_PASSWORD = 'zjpv elhj mpxo lpoi'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'erika.fernandes1409@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -11,7 +11,7 @@ from .forms import UsuarioForm, RegistroForm, LoginForm, PasswordChangeForm
 from django.db.models import Count, Q
 from django.utils.encoding import force_str
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, update_session_auth_hash, login
 from django.contrib.auth import logout as auth_logout
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -21,9 +21,26 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 import hashlib
 
+from .token_utils import generate_token
+
 
 def is_admin(user):
     return user.is_authenticated and user.is_admin
+
+
+def send_activation_email(request, usuario):
+    token = generate_token(usuario.pk)
+    current_site = get_current_site(request)
+    mail_subject = 'Ative sua conta'
+    from_email = 'erika.fernandes1409@gmail.com'
+    recipient_list = [usuario.email]
+    message = render_to_string('usuarios/activation_email.html', {
+        'user': usuario,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(usuario)),
+        'token': token,
+    })
+    send_mail(mail_subject, message, 'erika.fernandes1409@gmail.com', [usuario.email], fail_silently=False)
 
 
 def listar_usuarios(request):
@@ -87,6 +104,17 @@ def excluir_usuario(request, usuario_id):
     return redirect('listar_usuarios')
 
 
+def resend_activation_email(request, usuario_id):
+    usuario = Usuario.objects.get(id=usuario_id)
+    if usuario:
+        if not usuario.is_active:
+            send_activation_email(request, usuario)
+            messages.success(request, 'O e-mail de ativação foi reenviado.')
+        else:
+            messages.info(request, 'Este usuário já está ativo.')
+    return redirect('dashboard')
+
+
 def cadastro(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -102,6 +130,24 @@ def cadastro(request):
     else:
         form = UsuarioForm()
         return render(request, 'usuarios/cadastro.html', {'form': form})
+
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = Usuario.objects.defer('password').get(pk=uid)
+    except (TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Conta ativada com sucesso! Agora você pode fazer login.')
+        return redirect('login')
+    else:
+        messages.error(request, 'Link de ativação inválido.')
+        return render('registro')
 
 
 def login(request):
