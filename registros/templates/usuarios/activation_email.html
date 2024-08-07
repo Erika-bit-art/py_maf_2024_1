@@ -7,14 +7,14 @@
         <h1>Ative sua conta</h1>
     </div>
     <div class="content">
-        <p>Olá {{ usuario.nome }},</p>
-        <p>Obrigado por se registrar. Clique no link abaixo para ativar sua conta:</p>
+        <p>Olá {{usuario.nome}},</p>
+        <p>Obrigada por se registrar! Para ativar a sua conta, clique no link abaixo: </p>
         <p>
-            <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">Ativar conta</a>
+            <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">Ative sua conta</a>
         </p>
         <p>Se você não se registrou, ignore este e-mail.</p>
     </div>
     <div class="footer">
-        <p>&copy; 2024 <em>Agenda Contatos Senac</em>. Todos os direitos reservados.</p>
+        <p>&copy; 2024 <em>Gerenciador de Registros Olímpicos</em>. Todos os direitos reservados.</p>
     </div>
 {% endblock %}

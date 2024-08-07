@@ -2,21 +2,21 @@
 
 ## Bem vindo(a) à documentação do meu projeto final!
 
-O Projeto com nome do arquivo raiz 'Trabalho_Final' é caracterizado como 'Gerenciador de Registros Olímpicos'. 
-O objetivo do Gerenciador é permitir ao usuário fã ou interessado nos jogos Olímpicos documentar os momentos mais 
-marcantes de qualquer edição do evento olímpico. Momentos que são especiais demais para ficar só na memória. Claro, 
-precisam de um registro concreto e facilmente acessível.
+O Projeto com nome do arquivo raiz 'Trabalho__Final' é caracterizado como 'Gerenciador de Registros Olímpicos'. 
+O objetivo do Gerenciador é permitir que usuário, fã ou interessado, nos Jogos Olímpicos possa documentar os momentos mais 
+marcantes de qualquer edição do evento olímpico. Momentos que são especiais demais para ficar só na memória, e, é claro,
+precisam de um registro eterno e facilmente acessível.
 
-Para realizar a instalação do projeto clone o repositório 'https://github.com/Erika-bit-art/py_maf_2024_1.git' 
+Para realizar a instalação do projeto, clone o repositório 'https://github.com/Erika-bit-art/py_maf_2024_1.git' 
 no Github na Branch 'TRABALHO_FINAL_SENAC_ATUALIZADO'. Selecione o diretório do projeto e execute no terminal:
 'python manage.py runserver'. Realize a instalação das dependencias necessárias incluindo: 'pip install django', 
 'pip install pillow','pip install itsdangerous' além de executar os comando triviais 'python manage.py makemigrations' 
 e o 'python manage.py migrate'.
 
 As funcionalidades da aplicação consistem basicamente no: cadastro, login, acesso a dashboard do usuário, criação do 
-registro olímpico pela inserção de campos específicos (atleta, modalidade, país, medalha, ano, local sede, momento, foto),
-e eventualmente o logout e mudar senha. Para o admin, é possível: verificar o quantitativo de usuários, sendo os ativos
-e os inativos também; listar os usuários, desativar, reativar e reenviar um email de ativação de conta. 
+registro olímpico pela inserção de campos específicos (atleta, modalidade, país, medalha, ano, local sede, momento, foto), 
+mudar senha e, finalmente, o logout. Para o admin, é possível: verificar o quantitativo de usuários, sendo os ativos
+e os inativos; listar os usuários, desativar, reativar e reenviar um email de ativação de conta. 
 
 ## Em cadastro: 
 'def cadastro' 

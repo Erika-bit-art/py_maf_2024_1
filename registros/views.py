@@ -24,6 +24,23 @@ import hashlib
 from .token_utils import generate_token
 
 
+def send_activation_email(request, usuario):
+    token = generate_token(usuario.pk)
+    current_site = get_current_site(request)
+    mail_subject = 'Ative sua conta'
+    from_email = 'gerenciador_registros_olímpicos@gmail.com'
+    recipient_list = [usuario.email]
+    message = render_to_string('usuarios/activation_email.html', {
+        'user': usuario,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(usuario.id)),
+        'token': token,
+    })
+    send_mail(mail_subject, '', from_email, recipient_list, fail_silently=False, html_message=message)
+    usuario.token = token
+    usuario.save()
+
+
 def cadastro(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -32,13 +49,31 @@ def cadastro(request):
             usuario.password = hashlib.sha256(usuario.password.encode('utf-8')).hexdigest()
             usuario.is_active = True
             usuario.save()
-            messages.success(request, 'Parabéns usuário registrado com sucesso!')
+            messages.success(request, 'Parabéns! usuário registrado com sucesso! :)')
             return redirect('login')
         else:
             return render(request, 'usuarios/cadastro.html', {'form': form})
     else:
         form = UsuarioForm()
         return render(request, 'usuarios/cadastro.html', {'form': form})
+
+def activate(request, uidb64, token):
+    try:
+        usuario_id = force_str(urlsafe_base64_decode(uidb64))
+        usuario = Usuario.objects.defer('password').get(pk=usuario_id)
+    except (TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
+        usuario = None
+
+    if usuario is not None and token == usuario.token:
+        usuario.is_active = True
+        usuario.token = ''
+        usuario.save()
+        messages.success(request, 'Conta ativada com sucesso! Agora você pode fazer login.')
+        return redirect('login')
+    else:
+        messages.error(request, 'Link de ativação inválido.')
+        return render(request, 'usuarios/cadastro.html')
+
 
 
 def login(request):
@@ -103,21 +138,6 @@ def logout(request):
     return response
 
 
-def send_activation_email(request, usuario):
-    token = generate_token(usuario.pk)
-    current_site = get_current_site(request)
-    mail_subject = 'Ative sua conta'
-    from_email = 'erika.fernandes1409@gmail.com'
-    recipient_list = [usuario.email]
-    message = render_to_string('usuarios/activation_email.html', {
-        'user': usuario,
-        'domain': current_site.domain,
-        'uid': urlsafe_base64_encode(force_bytes(usuario)),
-        'token': token,
-    })
-    send_mail(mail_subject, message, 'erika.fernandes1409@gmail.com', [usuario.email], fail_silently=False)
-
-
 def change_password(request):
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
@@ -141,22 +161,6 @@ def change_password(request):
         return render(request, 'usuarios/change_password.html', {'form': form})
     else:
         return redirect('login')
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = Usuario.objects.defer('password').get(pk=uid)
-    except (TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
-        user = None
-
-    if user is not None and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
-        messages.success(request, 'Conta ativada com sucesso! Agora você pode fazer login.')
-        return redirect('login')
-    else:
-        messages.error(request, 'Link de ativação inválido.')
-        return render('registro')
 
 
 def adicionar_registro(request):
@@ -218,12 +222,12 @@ def excluir_registro(request, registro_id):
     return render(request, 'registros/excluir_registro.html', {'registro': registro})
 
 
-
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Count
 from .models import Usuario
+
 
 def is_admin(user):
     return user.is_authenticated and user.is_admin
@@ -299,5 +303,6 @@ def resend_activation_email(request, usuario_id):
         else:
             messages.info(request, 'Este usuário já está ativo.')
     return redirect('dashboard')
+
 
 

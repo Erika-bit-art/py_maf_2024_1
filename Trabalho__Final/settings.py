@@ -43,7 +43,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'erika.fernandes1409@gmail.com'
 EMAIL_HOST_PASSWORD = 'zjpv elhj mpxo lpoi'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'erika.fernandes1409@gmail.com'
+DEFAULT_FROM_EMAIL = 'gerenciador_registros_olímpicos@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
