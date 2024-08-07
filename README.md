@@ -95,23 +95,7 @@ Pip install Pillow
 Pip install itsdangerous
 
 ## CONTRIBUIÇÃO: 
-projeto desenvolvido com base nas aulas do curso realizado, pesquisas em fontes diversas e conhecimento gerais.
-
-## OBS: 
-A considerar que o projeto foi desenvolvido por uma estudante em iniciação, eventuais erros de funcionamento podem ocorrer. 
-A destacar a autenticação de senha do usuario recém criado e também o envio do email de confirmação de ativação de conta.
-Por isso, para a usabilidade da aplicação ser completa, excepcionalmente, forneco o email e senha de usuários registrados 
-no banco de dados que estão sendo validados corretamente, visto que são usuários representativos ('ficcionais'). 
-São eles:
-
-erika@gmail.com
-senha: e1234@
-
-billie@gmail.com
-senha: bb1234@ 
-
-henrique@gmail.com
-senha: h1234@
+projeto desenvolvido com base nas aulas do curso realizado, conhecimento gerais e pesquisas genéricas em fontes diversas.
 
 ## BPM DO PROJETO
 https://drive.google.com/file/d/1TCcNkHmxSPWe873y9KFgyPwt-ipIrUyY/view

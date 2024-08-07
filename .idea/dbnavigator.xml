@@ -30,9 +30,7 @@ select * from usuario]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="d3a62440-fff1-423e-a375-0fe2ee765f14" object-ref="consoles/SQLITE14" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="d3a62440-fff1-423e-a375-0fe2ee765f14" />
