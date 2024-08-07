@@ -25,10 +25,10 @@
     <li class="list-group-item">
         <div>
             <h5 class="mb-1">{{ usuario.nome }}</h5>
-            {% if usuario.registro_count %}
-            <p class="mb-0"><strong>Registros:</strong> {{ usuario.registro_count }}</p>
+            {% if usuario.registros_count %}
+            <p class="mb-0"><strong>Registros:</strong> {{ usuario.registros_count }}</p>
             {% else %}
-            <p class="mb-0"></p>
+            <p class="mb-0">Nenhum Registro Olímpico cadastrado até o momento :(</p>
             {% endif %}
         </div>
         <div class="mb-3 mt-2">

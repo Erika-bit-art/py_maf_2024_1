@@ -141,21 +141,25 @@ def logout(request):
 def change_password(request):
     usuario_id = request.session.get('usuario_id')
     if usuario_id:
-        usuario = Usuario.objects.only('email').get(id=usuario_id)
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+        except Usuario.DoesNotExist:
+            messages.error(request, 'Usuário não encontrado.', extra_tags='danger')
+            return redirect('login')
+
         if request.method == 'POST':
             form = PasswordChangeForm(request.POST)
             if form.is_valid():
                 old_password = form.cleaned_data['old_password']
                 new_password = form.cleaned_data['new_password']
 
-                if Usuario.objects.get(email=usuario.email,
-                                       password=hashlib.sha256(old_password.encode('utf-8')).hexdigest()):
-                    usuario.password = hashlib.sha256(new_password.encode('utf8')).hexdigest()
+                if usuario.password == hashlib.sha256(old_password.encode('utf-8')).hexdigest():
+                    usuario.password = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
                     usuario.save()
                     messages.success(request, 'Senha alterada com sucesso!')
                     return redirect('dashboard')
                 else:
-                    messages.error('old_password', 'Senha antiga inválida.', extra_tags='danger')
+                    messages.error(request, 'Senha antiga inválida.', extra_tags='danger')
         else:
             form = PasswordChangeForm()
         return render(request, 'usuarios/change_password.html', {'form': form})
