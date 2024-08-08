@@ -2,30 +2,21 @@ import base64
 import io
 from PIL import Image
 from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
-
+from django.shortcuts import get_object_or_404
 from .models import Usuario, Registro
 from .forms import UsuarioForm, RegistroForm, LoginForm, PasswordChangeForm
-
 from django.db.models import Count, Q
 from django.utils.encoding import force_str
-from django.contrib import messages
-
-from django.contrib.auth import logout as auth_logout
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
 import hashlib
-
 from .token_utils import generate_token
 
 
 def send_activation_email(request, usuario):
-    token = generate_token(usuario.pk)
     current_site = get_current_site(request)
     mail_subject = 'Ative sua conta'
     from_email = 'gerenciador_registros_olímpicos@gmail.com'
@@ -34,10 +25,9 @@ def send_activation_email(request, usuario):
         'user': usuario,
         'domain': current_site.domain,
         'uid': urlsafe_base64_encode(force_bytes(usuario.id)),
-        'token': token,
+        'token': default_token_generator.make_token(usuario),
     })
     send_mail(mail_subject, '', from_email, recipient_list, fail_silently=False, html_message=message)
-    usuario.token = token
     usuario.save()
 
 
@@ -47,15 +37,18 @@ def cadastro(request):
         if form.is_valid():
             usuario = form.save(commit=False)
             usuario.password = hashlib.sha256(usuario.password.encode('utf-8')).hexdigest()
-            usuario.is_active = True
+            usuario.is_active = False
             usuario.save()
-            messages.success(request, 'Parabéns! usuário registrado com sucesso! :)')
+            send_activation_email(request, usuario)
+            messages.success(request, 'Parabéns você acaba de se registrar! Para ativar a sua conta, clique no link de ativação enviado para o seu email.')
             return redirect('login')
         else:
             return render(request, 'usuarios/cadastro.html', {'form': form})
     else:
         form = UsuarioForm()
         return render(request, 'usuarios/cadastro.html', {'form': form})
+
+
 
 def activate(request, uidb64, token):
     try:
@@ -64,16 +57,14 @@ def activate(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
         usuario = None
 
-    if usuario is not None and token == usuario.token:
+    if usuario is not None and default_token_generator.check_token(usuario, token):
         usuario.is_active = True
-        usuario.token = ''
         usuario.save()
         messages.success(request, 'Conta ativada com sucesso! Agora você pode fazer login.')
         return redirect('login')
     else:
         messages.error(request, 'Link de ativação inválido.')
         return render(request, 'usuarios/cadastro.html')
-
 
 
 def login(request):
@@ -226,7 +217,6 @@ def excluir_registro(request, registro_id):
     return render(request, 'registros/excluir_registro.html', {'registro': registro})
 
 
-from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Count
@@ -307,6 +297,3 @@ def resend_activation_email(request, usuario_id):
         else:
             messages.info(request, 'Este usuário já está ativo.')
     return redirect('dashboard')
-
-
-
