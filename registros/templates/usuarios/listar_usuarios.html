@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container-fluid p-0 mt-5">
-    <!-- Card de Título "Administração de Usuários" -->
     <div class="card" style="width: 100%; background-color: #4CAF50; color: #ffffff; border: none; border-bottom: 10px solid #FFD700; display: flex; align-items: center; padding: 10px; box-sizing: border-box; margin-bottom: 20px;">
       <div class="card-body" style="flex: 1;">
         <h1 class="card-title" style="font-size: 55px; font-family: 'Open Sans', sans-serif; margin: 0; color: #000000;">Administração de Usuários</h1>
@@ -12,7 +11,6 @@
     </div>
 
 
-    <!-- Botões de Navegação -->
     <div class="mb-3">
         <a href="{% url 'dashboard' %}" class="btn" style="background-color: #008000; color: #ffffff; border: none; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Dashboard</a>
 
@@ -21,7 +19,6 @@
 
     </div>
 
-    <!-- Formulário de Busca -->
     <form class="mb-3">
         <input type="text" name="q" placeholder="Buscar por nome ou email" class="form-control mb-2" style="border-color: #4CAF50;">
         <input type="number" name="idade" min="0" max="200" placeholder="Buscar por idade aproximada" class="form-control mb-2" style="border-color: #4CAF50;">
@@ -33,7 +30,6 @@
         <button type="submit" class="btn btn-secondary" style="background-color: #FFD700; color: #000000;">Buscar</button>
     </form>
 
-    <!-- Lista de Usuários -->
     <div class="card mb-4" style="background-color: #150792; border: 2px solid #4CAF50; border-radius: 15px;">
         <div class="card-header" style="background-color: #0047ab; color: #000000; font-weight: bold; border-top-left-radius: 15px; border-top-right-radius: 15px;">
             Usuários

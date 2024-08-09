@@ -7,6 +7,9 @@
     <list default="true" id="fabc44cb-d373-4134-8558-85a591ffcb7a" name="Changes" comment="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/registros/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/listar_usuarios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registros/templates/usuarios/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/registros/templates/usuarios/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -336,7 +339,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723237390517</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
+      <option name="closed" value="true" />
+      <created>1723238592051</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1723238592051</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
