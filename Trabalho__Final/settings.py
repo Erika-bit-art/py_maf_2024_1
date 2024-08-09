@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_URL = '/static/'
 
 # AUTHENTICATION
 AUTH_USER_MODEL = 'registros.Usuario'
