@@ -5,20 +5,22 @@
 {% block content %}
 <div class="container-fluid p-0">
     <!-- Header -->
-    <div class="card" style="width: 100%; background-color: #4CAF50; color: #ffffff; border: none; border-bottom: 10px solid #FFD700; display: flex; align-items: center; padding: 10px; box-sizing: border-box;">
-        <div class="card-body" style="flex: 1;">
-            <h1 class="card-title" style="font-size: 36px; font-family: 'Open Sans', sans-serif; margin: 0;">Gerenciador de Registros Olímpicos</h1>
-        </div>
-    </div>
+   <div class="card" style="width: 100%; background-color: #4CAF50; color: #000000; border: none; border-bottom: 10px solid #FFD700; display: flex; align-items: center; padding: 10px; box-sizing: border-box;">
+      <div class="card-body" style="flex: 1;">
+        <h1 class="card-title" style="font-size: 36px; font-family: 'Open Sans', sans-serif; margin: 0;">Gerenciador de Registros Olímpicos</h1>
+      </div>
+   </div>
+
 
     <!-- Welcome Card -->
     <div class="mt-3 text-center">
-        <div class="card mx-auto" style="max-width: 320px; background-color: #87CEEB; border: 2px solid #1E90FF; border-radius: 30px;">
-            <div class="card-body text-center">
-                <h1 style="font-size: 24px; font-family: 'Open Sans', sans-serif; color: #1E90FF;">Bem-vindo, visitante!</h1>
-            </div>
+      <div class="card mx-auto" style="max-width: 320px; background-color: #0047ab; border: 2px solid #1E90FF; border-radius: 30px;">
+        <div class="card-body text-center">
+            <h1 style="font-size: 24px; font-family: 'Open Sans', sans-serif; color: #000000;">Bem-vindo, visitante!</h1>
         </div>
+      </div>
     </div>
+
 
     <!-- Bandeira do Brasil e Aros Olímpicos -->
     <div style="position: relative; margin-top: 20px; padding: 10px;">
@@ -31,19 +33,20 @@
 
     <!-- Instructions -->
     <div class="mt-3 text-center">
-        <div class="text-white p-3 rounded" style="width: 100%; max-width: 450px; background-color: #4682B4; margin: 0 auto; text-align: center;">
-            <p style="margin-bottom: 0; font-size: 16px; font-family: 'Roboto', sans-serif;">
-                Faça login na sua conta para começar a usar o sistema.
-            </p>
-            <p style="margin-bottom: 0; font-size: 16px; font-family: 'Roboto', sans-serif;">
-                Caso não tenha conta, clique em 'cadastrar' :)
-            </p>
-        </div>
+     <div class="text-white p-3 rounded" style="width: 100%; max-width: 450px; background-color: #4169e1; margin: 0 auto; text-align: center;">
+        <p style="margin-bottom: 0; font-size: 16px; font-family: 'Roboto', sans-serif; color: #000000;">
+            Faça login na sua conta para começar a usar o sistema.
+        </p>
+        <p style="margin-bottom: 0; font-size: 16px; font-family: 'Roboto', sans-serif; color: #000000;">
+            Caso não tenha conta, clique em 'cadastrar' :)
+        </p>
+     </div>
     </div>
+
 
     <!-- Login Form -->
     <div class="mt-3" style="max-width: 400px; margin: 0 auto;">
-        <h1 style="font-size: 24px; color: #FF4500; margin-bottom: 20px; text-align: left;">Login</h1>
+        <h1 style="font-size: 24px; color: #111111; margin-bottom: 20px; text-align: left;">Login</h1>
         <form method="post">
             {% csrf_token %}
             {% for field in form %}
@@ -58,7 +61,7 @@
             </div>
             {% endfor %}
             <div class="mt-3 text-center">
-                <button type="submit" class="btn" style="background-color: #FF4500; color: #ffffff; border-radius: 20px; padding: 10px 20px;">Login</button>
+                <button type="submit" class="btn" style="background-color: #fde910; color: #000000; border-radius: 20px; padding: 10px 20px;">Login</button>
                 <a href="{% url 'cadastro' %}" class="btn" style="background-color: #003d19; color: #FFD700; border-radius: 20px; padding: 10px 20px; text-decoration: none; margin-left: 10px;">Cadastrar</a>
             </div>
         </form>
