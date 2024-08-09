@@ -23,7 +23,13 @@ UPDATE usuario
 SET is_admin = TRUE 
 WHERE id = 1;
 
-select * from usuario]]></console>
+select * from usuario
+
+select * from usuario
+
+UPDATE usuario 
+SET is_admin = TRUE 
+WHERE id = 24;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
