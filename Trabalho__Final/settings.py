@@ -59,7 +59,7 @@ SECRET_KEY = '*=hcvkd__d532frp93_cl(6=c2cw2qquj98d0=hptvm+$+qlz1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['py-maf-2024-1-1.onrender.com']
+ALLOWED_HOSTS = ['py-maf-2024-1-2.onrender.com']
 
 STATIC_URL = '/static/'
 
