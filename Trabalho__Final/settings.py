@@ -11,6 +11,37 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+# Carrega as variáveis do arquivo .env
+load_dotenv()
+
+# Configurações do Django
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')  # Use o nome da variável definida no .env
+DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(',')  # Use o nome da variável definida no .env
+
+# Configurações de e-mail
+EMAIL_HOST = os.getenv('EMAIL_HOST')  # Use o nome da variável definida no .env
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))  # Use o nome da variável definida no .env
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Use o nome da variável definida no .env
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Use o nome da variável definida no .env
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'  # Use o nome da variável definida no .env
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Use o nome da variável definida no .env
+
+# Configurações do banco de dados
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),  # Use o nome da variável definida no .env
+        'USER': os.getenv('DB_USER'),  # Use o nome da variável definida no .env
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # Use o nome da variável definida no .env
+        'HOST': os.getenv('DB_HOST'),  # Use o nome da variável definida no .env
+        'PORT': os.getenv('DB_PORT'),  # Use o nome da variável definida no .env
+    }
+}
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

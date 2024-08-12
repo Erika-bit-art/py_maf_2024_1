@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fabc44cb-d373-4134-8558-85a591ffcb7a" name="Changes" comment="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO" />
+    <list default="true" id="fabc44cb-d373-4134-8558-85a591ffcb7a" name="Changes" comment="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Trabalho__Final/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Trabalho__Final/settings.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -349,7 +354,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723242033117</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="WIP: TRABALHO_FINAL_SENAC_ATUALIZADO">
+      <option name="closed" value="true" />
+      <created>1723242660976</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1723242660976</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
